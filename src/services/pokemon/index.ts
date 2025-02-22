@@ -1,6 +1,11 @@
+import type { PokemonListResponse } from '../../types/pokemon'
+
 const POKEMON_API_URL = 'https://pokeapi.co/api/v2/pokemon/'
 
-export async function getAllPokemon(offset = 0, limit = 20) {
+export async function getAllPokemon(
+  offset = 0,
+  limit = 20
+): Promise<PokemonListResponse> {
   const allPokemonUrl = `${POKEMON_API_URL}?offset=${offset}$limit=${limit}`
   const res = await fetch(allPokemonUrl)
 
