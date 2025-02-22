@@ -17,13 +17,12 @@ async function fetchPokemonListWithDetails() {
   const detailPromises = list.results.map(item => getPokemonDetail(item.name))
   const details = await Promise.all(detailPromises)
 
-  // 3) Mapeia para um formato amigável ao componente
   const pokemonData: PokemonCardData[] = details.map(
     (detail: PokemonDetail) => {
       return {
         id: detail.id,
         name: detail.name,
-        types: detail.types.map(t => t.type.name), // ["grass", "poison"], etc
+        types: detail.types.map(t => t.type.name),
         sprite: detail.sprites.other.showdown.front_default,
       }
     }
@@ -36,6 +35,6 @@ export function usePokemonList() {
   return useQuery<PokemonCardData[], Error>({
     queryKey: ['pokemonListWithDetails'],
     queryFn: fetchPokemonListWithDetails,
-    staleTime: 1000 * 60 * 5, // Cache de 5 minutos
+    staleTime: 1000 * 60 * 5,
   })
 }
