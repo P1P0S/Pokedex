@@ -1,10 +1,10 @@
-import { PokemonList } from '../components/PokemonList'
+import { PokemonGrid } from '../components/PokemonGrid'
 
 export function Home() {
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-2">Página Inicial</h1>
-      <PokemonList />
+    <div>
+      <h1 className="text-2xl font-bold text-center mt-4">Pokédex</h1>
+      <PokemonGrid />
     </div>
   )
 }

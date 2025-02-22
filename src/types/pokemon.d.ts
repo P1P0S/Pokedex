@@ -18,6 +18,11 @@ export interface PokemonDetail {
     type: { name: string; url: string }
   }>
   sprites: {
+    other: {
+      showdown: {
+        front_default: string | null
+      }
+    }
     front_default: string | null
     [key: string]: string | null
   }
