@@ -1,13 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { getPokemonDetail, getPokemonList } from '../services/pokemon'
-import type { PokemonDetail } from '../types/pokemon'
-
-interface PokemonCardData {
-  id: number
-  name: string
-  types: string[]
-  sprite: string | null
-}
+import {
+  type PokemonCardData,
+  parsePokemonDetail,
+} from '../utils/pokemonParser'
 
 async function fetchPokemonListWithDetails(page: number) {
   const limit = 20
@@ -18,16 +14,7 @@ async function fetchPokemonListWithDetails(page: number) {
   const detailPromises = list.results.map(item => getPokemonDetail(item.name))
   const details = await Promise.all(detailPromises)
 
-  const pokemonData: PokemonCardData[] = details.map(
-    (detail: PokemonDetail) => {
-      return {
-        id: detail.id,
-        name: detail.name,
-        types: detail.types.map(t => t.type.name),
-        sprite: detail.sprites.other.showdown.front_default,
-      }
-    }
-  )
+  const pokemonData: PokemonCardData[] = details.map(parsePokemonDetail)
 
   return pokemonData
 }
