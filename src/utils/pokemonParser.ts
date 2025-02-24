@@ -5,6 +5,7 @@ export interface PokemonCardData {
   name: string
   types: string[]
   sprite: string | null
+  base_experience: number
 }
 
 export function parsePokemonDetail(detail: PokemonDetail): PokemonCardData {
@@ -12,6 +13,7 @@ export function parsePokemonDetail(detail: PokemonDetail): PokemonCardData {
     id: detail.id,
     name: detail.name,
     types: detail.types.map(t => t.type.name),
+    base_experience: detail.base_experience,
     sprite:
       detail.sprites.other?.showdown?.front_default ??
       detail.sprites.front_default,

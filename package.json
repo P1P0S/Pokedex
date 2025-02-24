@@ -14,6 +14,7 @@
     "*.{js,ts,tsx,css,md}": "biome check --write ."
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
     "@tailwindcss/vite": "^4.0.8",
     "@tanstack/react-query": "^5.66.9",
     "@tanstack/react-query-devtools": "^5.66.9",

@@ -26,4 +26,5 @@ export interface PokemonDetail {
     front_default: string | null
     [key: string]: string | null
   }
+  base_experience: number
 }
