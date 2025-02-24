@@ -10,7 +10,7 @@ export function PokemonDetailHeader({ pillClass }: PokemonDetailHeaderProps) {
     <header className={`p-4 w-full ${pillClass}`}>
       <Link to="/" className="font-bold flex flex-row items-center text-white">
         <ArrowLeft size={24} className="inline mr-2 text-white" weight="bold" />
-        Voltar
+        Back
       </Link>
     </header>
   )

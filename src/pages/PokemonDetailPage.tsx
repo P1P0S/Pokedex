@@ -1,11 +1,12 @@
-// PokemonDetailPage.tsx
 import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { PokemonBasicInfo } from '../components/PokemonBasicInfo'
 import { PokemonDetailHeader } from '../components/PokemonDetailHeader'
 import { PokemonMainImage } from '../components/PokemonImage'
 import { PokemonSprites } from '../components/PokemonSprites'
 import { getPokemonDetail } from '../services/pokemon'
+import { usePokemonStore } from '../store/pokemonStore'
 import {
   type PokemonCardData,
   parsePokemonDetail,
@@ -25,6 +26,14 @@ export function PokemonDetailPage() {
       return parsePokemonDetail(detail)
     },
   })
+
+  const { setSelectedSprite } = usePokemonStore()
+
+  useEffect(() => {
+    if (data?.sprite?.front_default) {
+      setSelectedSprite(data.sprite.front_default)
+    }
+  }, [data, setSelectedSprite])
 
   if (isLoading) return <p>Carregando...</p>
   if (error || !data) {

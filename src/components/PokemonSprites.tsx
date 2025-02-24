@@ -1,71 +1,47 @@
+import { usePokemonStore } from '../store/pokemonStore'
 import type { PokemonCardData } from '../utils/pokemonParser'
 
-type PokemonSpritesProps = {
+interface PokemonSpritesProps {
   data: PokemonCardData
 }
 
 export function PokemonSprites({ data }: PokemonSpritesProps) {
+  const { selectedSprite, setSelectedSprite } = usePokemonStore()
+
+  function renderSpriteButton(spriteUrl?: string | null) {
+    if (!spriteUrl) {
+      return (
+        <div className="w-16 h-16 border-4 border-white rounded flex items-center justify-center">
+          (x)
+        </div>
+      )
+    }
+
+    const isSelected = selectedSprite === spriteUrl
+
+    return (
+      <button
+        type="button"
+        onClick={() => setSelectedSprite(spriteUrl)}
+        className={`w-16 h-16 border-4 rounded flex items-center justify-center
+          ${isSelected ? 'border-green-500 bg-green-100' : 'border-white bg-white'}`}
+      >
+        <img
+          src={spriteUrl}
+          alt={spriteUrl || 'Imagem de um pokémon'}
+          className="object-contain w-full h-full cursor-pointer"
+        />
+      </button>
+    )
+  }
+
   return (
-    <div className="w-full bg-slate-300">
+    <div className="w-full">
       <div className="flex flex-row gap-2 justify-center items-center p-4">
-        <button
-          type="button"
-          className="w-16 h-16 border-4 border-green-500 rounded flex items-center justify-center"
-        >
-          {data?.sprite?.front_default ? (
-            <img
-              src={data.sprite.front_default}
-              alt={data.sprite.front_default || 'Imagem de um pokémon'}
-              className="object-contain w-full h-full"
-            />
-          ) : (
-            <div className="bg-gray-200 text-gray-500 flex items-center justify-center w-full h-full">
-              (x)
-            </div>
-          )}
-        </button>
-
-        <div className="w-16 h-16 border-4 border-white rounded flex items-center justify-center">
-          {data?.sprite?.back_default ? (
-            <img
-              src={data.sprite.back_default}
-              alt={data.sprite.back_default || 'Imagem de um pokémon'}
-              className="object-contain w-full h-full"
-            />
-          ) : (
-            <div className="bg-gray-200 text-gray-500 flex items-center justify-center w-full h-full">
-              (x)
-            </div>
-          )}
-        </div>
-
-        <div className="w-16 h-16 border-4 border-white rounded flex items-center justify-center">
-          {data?.sprite?.front_shiny ? (
-            <img
-              src={data.sprite.front_shiny}
-              alt={data.sprite.front_shiny || 'Imagem de um pokémon'}
-              className="object-contain w-full h-full"
-            />
-          ) : (
-            <div className="bg-gray-200 text-gray-500 flex items-center justify-center w-full h-full">
-              (x)
-            </div>
-          )}
-        </div>
-
-        <div className="w-16 h-16 border-4 border-white rounded flex items-center justify-center">
-          {data?.sprite?.back_shiny ? (
-            <img
-              src={data.sprite.back_shiny}
-              alt={data.sprite.back_shiny || 'Imagem de um pokémon'}
-              className="object-contain w-full h-full"
-            />
-          ) : (
-            <div className="bg-gray-200 text-gray-500 flex items-center justify-center w-full h-full">
-              (x)
-            </div>
-          )}
-        </div>
+        {renderSpriteButton(data.sprite?.front_default)}
+        {renderSpriteButton(data.sprite?.back_default)}
+        {renderSpriteButton(data.sprite?.front_shiny)}
+        {renderSpriteButton(data.sprite?.back_shiny)}
       </div>
     </div>
   )

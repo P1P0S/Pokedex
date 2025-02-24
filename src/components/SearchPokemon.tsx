@@ -54,7 +54,7 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
       <div className="mb-4 w-[500px]">
         <input
           type="text"
-          placeholder="procurar por nome ou id"
+          placeholder="Search by name or id"
           value={searchInput}
           onChange={e => setSearchInput(e.target.value)}
           className="border p-2 w-full rounded-sm"
@@ -64,7 +64,7 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
           onClick={handleSearch}
           className="mt-2 p-2 bg-blue-500 text-white rounded-md"
         >
-          Pesquisar
+          Search
         </button>
         {searchInput && (
           <button
@@ -72,12 +72,12 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
             onClick={handleClear}
             type="button"
           >
-            Limpar
+            Clear
           </button>
         )}
       </div>
-      {error && <p className="text-red-600">Erro ao buscar Pokémon</p>}
-      {isLoading && <p>Carregando...</p>}
+      {error && <p className="text-red-600">Error while searching Pokémon</p>}
+      {isLoading && <p>Loading...</p>}
     </div>
   )
 }
