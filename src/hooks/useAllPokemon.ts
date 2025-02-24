@@ -6,6 +6,6 @@ export function useAllPokemon() {
   return useQuery<PokemonListResponse, Error>({
     queryKey: ['allPokemon'],
     queryFn: () => getPokemonList(),
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 5,
   })
 }
