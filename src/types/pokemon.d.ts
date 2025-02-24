@@ -21,9 +21,15 @@ export interface PokemonDetail {
     other: {
       showdown: {
         front_default: string | null
+        back_default?: string | null
+        front_shiny?: string | null
+        back_shiny?: string | null
       }
     }
     front_default: string | null
+    back_default: string | null
+    front_shiny: string | null
+    back_shiny: string | null
     [key: string]: string | null
   }
   base_experience: number

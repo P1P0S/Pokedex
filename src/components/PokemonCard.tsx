@@ -5,7 +5,9 @@ interface PokemonCardProps {
   id: number
   name: string
   types: string[]
-  sprite: string | null
+  sprite: {
+    front_default: string | null
+  }
 }
 
 export function PokemonCard({ id, name, types, sprite }: PokemonCardProps) {
@@ -22,7 +24,7 @@ export function PokemonCard({ id, name, types, sprite }: PokemonCardProps) {
 
         {sprite ? (
           <img
-            src={sprite}
+            src={sprite?.front_default || ''}
             alt={name}
             className="w-24 h-24 object-contain mb-2"
           />

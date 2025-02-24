@@ -72,7 +72,7 @@ export function PokemonDetailPage() {
         <div className="w-full bg-slate-300">
           <div className="flex flex-col items-center">
             <img
-              src={data?.sprite || ''}
+              src={data?.sprite?.front_default || ''}
               alt={data?.name}
               className="mt-4 w-48 h-48"
             />
