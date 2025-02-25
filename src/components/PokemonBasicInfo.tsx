@@ -1,4 +1,4 @@
-import type { PokemonCardData } from '../utils/pokemonParser'
+import type { PokemonCardData } from '../utils/parsePokemonFrontPage'
 
 type PokemonBasicInfoProps = {
   data: PokemonCardData

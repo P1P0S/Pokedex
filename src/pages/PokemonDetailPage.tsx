@@ -5,12 +5,13 @@ import { PokemonBasicInfo } from '../components/PokemonBasicInfo'
 import { PokemonDetailHeader } from '../components/PokemonDetailHeader'
 import { PokemonMainImage } from '../components/PokemonImage'
 import { PokemonSprites } from '../components/PokemonSprites'
-import { getPokemonDetail } from '../services/pokemon'
+import { PokemonTabs } from '../components/Tabs/PokemonTabs'
+import { getPokemonDetail } from '../services/pokeAPI'
 import { usePokemonStore } from '../store/pokemonStore'
 import {
   type PokemonCardData,
-  parsePokemonDetail,
-} from '../utils/pokemonParser'
+  parsePokemonFrontPage,
+} from '../utils/parsePokemonFrontPage'
 import { typeColors } from '../utils/pokemonTypeColors'
 
 export function PokemonDetailPage() {
@@ -23,7 +24,7 @@ export function PokemonDetailPage() {
         throw new Error('Identificador não informado')
       }
       const detail = await getPokemonDetail(identifier)
-      return parsePokemonDetail(detail)
+      return parsePokemonFrontPage(detail)
     },
   })
 
@@ -55,6 +56,7 @@ export function PokemonDetailPage() {
         />
         <PokemonMainImage data={data} />
         <PokemonSprites data={data} />
+        <PokemonTabs />
       </main>
     </div>
   )

@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-import { getPokemonDetail, getPokemonList } from '../services/pokemon'
+import { getPokemonDetail, getPokemonList } from '../services/pokeAPI'
 import {
   type PokemonCardData,
-  parsePokemonDetail,
-} from '../utils/pokemonParser'
+  parsePokemonFrontPage,
+} from '../utils/parsePokemonFrontPage'
 
-async function fetchPokemonListWithDetails(page: number) {
+async function listPokemonFrontPage(page: number) {
   const limit = 20
   const offset = page * limit
 
@@ -14,15 +14,15 @@ async function fetchPokemonListWithDetails(page: number) {
   const detailPromises = list.results.map(item => getPokemonDetail(item.name))
   const details = await Promise.all(detailPromises)
 
-  const pokemonData: PokemonCardData[] = details.map(parsePokemonDetail)
+  const pokemonData: PokemonCardData[] = details.map(parsePokemonFrontPage)
 
   return pokemonData
 }
 
 export function usePokemonList(page: number) {
   return useQuery<PokemonCardData[], Error>({
-    queryKey: ['pokemonListWithDetails', page],
-    queryFn: () => fetchPokemonListWithDetails(page),
+    queryKey: ['listPokemonFrontPage', page],
+    queryFn: () => listPokemonFrontPage(page),
     staleTime: 1000 * 60 * 5,
   })
 }

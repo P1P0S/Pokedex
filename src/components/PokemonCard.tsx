@@ -1,16 +1,8 @@
 import { Link } from 'react-router-dom'
+import type { PokemonCardData } from '../utils/parsePokemonFrontPage'
 import { typeColors } from '../utils/pokemonTypeColors'
 
-interface PokemonCardProps {
-  id: number
-  name: string
-  types: string[]
-  sprite: {
-    front_default: string | null
-  }
-}
-
-export function PokemonCard({ id, name, types, sprite }: PokemonCardProps) {
+export function PokemonCard({ id, name, types, sprite }: PokemonCardData) {
   const mainType = types[0] || 'normal'
   const backgroundClass = typeColors[mainType]?.card ?? typeColors.normal.card
 

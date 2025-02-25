@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { PokemonCard } from '../components/PokemonCard'
 import { PokemonGrid } from '../components/PokemonGrid'
 import { SearchPokemon } from '../components/SearchPokemon'
-import type { PokemonCardData } from '../utils/pokemonParser'
+import type { PokemonCardData } from '../utils/parsePokemonFrontPage'
 
 export function Home() {
   const [searchedPokemon, setSearchedPokemon] =

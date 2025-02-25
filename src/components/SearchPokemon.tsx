@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { getPokemonDetail } from '../services/pokemon'
+import { getPokemonDetail } from '../services/pokeAPI'
 import {
   type PokemonCardData,
-  parsePokemonDetail,
-} from '../utils/pokemonParser'
+  parsePokemonFrontPage,
+} from '../utils/parsePokemonFrontPage'
 
 interface SearchPokemonProps {
   onResult: (data: PokemonCardData | null) => void
@@ -22,7 +22,7 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
     queryKey: ['pokemonSearch'],
     queryFn: async () => {
       const detail = await getPokemonDetail(searchInput.trim())
-      return parsePokemonDetail(detail)
+      return parsePokemonFrontPage(detail)
     },
     retry: 2,
     enabled: false,
@@ -76,7 +76,7 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
           </button>
         )}
       </div>
-      {error && <p className="text-red-600">Error while searching Pokémon</p>}
+      {error && <p className="text-red-600">Pokémon not found</p>}
       {isLoading && <p>Loading...</p>}
     </div>
   )

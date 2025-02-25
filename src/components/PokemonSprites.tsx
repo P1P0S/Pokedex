@@ -1,5 +1,5 @@
 import { usePokemonStore } from '../store/pokemonStore'
-import type { PokemonCardData } from '../utils/pokemonParser'
+import type { PokemonCardData } from '../utils/parsePokemonFrontPage'
 
 interface PokemonSpritesProps {
   data: PokemonCardData
@@ -11,7 +11,10 @@ export function PokemonSprites({ data }: PokemonSpritesProps) {
   function renderSpriteButton(spriteUrl?: string | null) {
     if (!spriteUrl) {
       return (
-        <div className="w-16 h-16 border-4 border-white rounded flex items-center justify-center">
+        <div
+          className="w-16 h-16 border-4 border-white rounded flex items-center
+          justify-center select-none"
+        >
           (x)
         </div>
       )
@@ -24,7 +27,7 @@ export function PokemonSprites({ data }: PokemonSpritesProps) {
         type="button"
         onClick={() => setSelectedSprite(spriteUrl)}
         className={`w-16 h-16 border-4 rounded flex items-center justify-center
-          ${isSelected ? 'border-green-500 bg-green-100' : 'border-white bg-white'}`}
+          ${isSelected ? 'border-green-500 bg-green-100' : 'border-white bg-transparent'}`}
       >
         <img
           src={spriteUrl}
