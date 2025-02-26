@@ -19,6 +19,7 @@ export interface PokemonDetailProps {
     legacy?: string
   }
   base_experience: number
+  moves: Array<{ move: { name: string } }>
 }
 
 export function parsePokemonDetailPage(
@@ -54,5 +55,6 @@ export function parsePokemonDetailPage(
     abilities: detail.abilities,
     cries: detail.cries,
     base_experience: detail.base_experience,
+    moves: detail.moves.map(m => ({ move: { name: m.move.name } })),
   }
 }

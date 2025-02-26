@@ -41,4 +41,5 @@ export interface PokemonDetail {
     latest: string
     legacy: string
   }
+  moves: Array<{ move: { name: string } }>
 }
