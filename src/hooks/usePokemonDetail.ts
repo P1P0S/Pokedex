@@ -15,7 +15,7 @@ export function usePokemonDetail() {
       if (!identifier) {
         throw new Error('Identifier is missing')
       }
-      const detail = await getPokemonDetail(identifier)
+      const detail = await getPokemonDetail(identifier.replace(' ', '-'))
       return parsePokemonDetailPage(detail)
     },
     staleTime: 1000 * 60 * 5,

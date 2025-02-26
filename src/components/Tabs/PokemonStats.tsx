@@ -79,10 +79,7 @@ export function PokemonStats() {
         <div className="flex flex-col justify-between">
           <span className="font-medium">Abilities</span>
           <span className="capitalize font-bold">
-            {data.abilities
-              .map(a => a.ability.name)
-              .join(', ')
-              .replace('-', ' ')}
+            {data.abilities.map(a => a.ability.name).join(', ')}
           </span>
         </div>
       </div>

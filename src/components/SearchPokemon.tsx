@@ -40,7 +40,9 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
   }, [searchData, error, isLoading, onResult])
 
   function handleSearch() {
-    if (!searchInput.trim()) return
+    const normalizeInput = searchInput.replace(' ', '-').toLowerCase()
+    if (!normalizeInput.trim()) return
+    setSearchInput(normalizeInput)
     refetch()
   }
 

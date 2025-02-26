@@ -24,9 +24,11 @@ export interface PokemonDetailProps {
 export function parsePokemonDetailPage(
   detail: PokemonDetail
 ): PokemonDetailProps {
+  const normalizePokeName = detail.name.replace('-', ' ')
+
   return {
     id: detail.id,
-    name: detail.name,
+    name: normalizePokeName,
     types: detail.types.map(t => t.type.name),
     sprite: {
       front_default:
