@@ -10,35 +10,32 @@ import { typeColors } from '../utils/pokemonTypeColors'
 
 export function PokemonDetailPage() {
   const { data, isLoading, error } = usePokemonDetail()
-
-  const { setSelectedSprite } = usePokemonStore()
+  const { setPokemonSprites } = usePokemonStore()
 
   useEffect(() => {
-    if (data?.sprite?.front_default) {
-      setSelectedSprite(data.sprite.front_default)
+    if (data?.sprite) {
+      setPokemonSprites(data.sprite)
     }
-  }, [data, setSelectedSprite])
+  }, [data, setPokemonSprites])
 
   if (isLoading) return <p>Loading...</p>
-  if (error || !data) {
-    return <p>Error while fetching pokémon</p>
-  }
+  if (error || !data) return <p>Error while fetching Pokémon</p>
 
   const mainType = data?.types[0] || 'normal'
   const backgroundClass = typeColors[mainType]?.card ?? typeColors.normal.card
   const pillClass = typeColors[mainType]?.pill ?? typeColors.normal.pill
 
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-6 mb-12">
       <PokemonDetailHeader pillClass={`${pillClass}`} />
-      <main className="w-[90%] rounded-2xl overflow-hidden shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+      <main className="w-[90%] md:w-[50%] lg:w-[50%] max-w-auto rounded-2xl overflow-hidden shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
         <PokemonBasicInfo
           data={data}
           backgroundClass={backgroundClass}
           typeColors={typeColors}
         />
-        <PokemonMainImage data={data} />
-        <PokemonSprites data={data} />
+        <PokemonMainImage />
+        <PokemonSprites />
         <PokemonTabs />
       </main>
     </div>

@@ -1,35 +1,35 @@
 import { useTabStore } from '../../store/pokemonStore'
 import { PokemonMoves } from './PokemonMoves'
-import { PokemonStatus } from './PokemonStatus'
+import { PokemonStats } from './PokemonStats'
 
 export function PokemonTabs() {
   const { activeTab, setActiveTab } = useTabStore()
 
   return (
     <div className="w-full">
-      <nav className="relative flex gap-6 mb-4 border-b border-slate-300">
+      <nav className="flex gap-6 border-b border-slate-300">
         <button
           type="button"
-          onClick={() => setActiveTab('status')}
-          className={`pb-1 px-2 font-bold cursor-pointer
+          onClick={() => setActiveTab('stats')}
+          className={`px-4 py-2 text-lg font-bold cursor-pointer
             ${
-              activeTab === 'status'
-                ? 'text-green-600 border-b-4 border-green-600 -mb-[2px]'
-                : 'text-gray-500 border-b-4 border-transparent'
+              activeTab === 'stats'
+                ? 'text-green-600 border-b-4 border-green-600 -mb-[1px]'
+                : 'text-gray-500 border-b-4 border-transparent -mb-[1px]'
             }
           `}
         >
-          Status
+          Stats
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('moves')}
-          className={`pb-1 px-2 font-bold cursor-pointer
+          className={`px-4 py-2 text-lg font-bold cursor-pointer
             ${
               activeTab === 'moves'
-                ? 'text-green-600 border-b-4 border-green-600 -mb-[2px]'
-                : 'text-gray-500 border-b-4 border-transparent'
+                ? 'text-green-600 border-b-4 border-green-600 -mb-[1px]'
+                : 'text-gray-500 border-b-4 border-transparent -mb-[1px]'
             }
           `}
         >
@@ -37,7 +37,7 @@ export function PokemonTabs() {
         </button>
       </nav>
 
-      {activeTab === 'status' && <PokemonStatus />}
+      {activeTab === 'stats' && <PokemonStats />}
       {activeTab === 'moves' && <PokemonMoves />}
     </div>
   )

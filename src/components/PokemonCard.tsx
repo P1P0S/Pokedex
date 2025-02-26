@@ -12,7 +12,7 @@ export function PokemonCard({ id, name, types, sprite }: PokemonCardData) {
         className={`rounded-lg p-4 text-white flex flex-col items-center justify-center shadow-md ${backgroundClass}`}
         style={{ minWidth: '180px' }}
       >
-        <p className="text-sm font-bold">#{id}</p>
+        <p className="text-sm font-bold">{`#${String(id).padStart(4, '0')}`}</p>
 
         {sprite ? (
           <img

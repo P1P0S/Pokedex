@@ -1,20 +1,12 @@
 import { usePokemonStore } from '../store/pokemonStore'
-import type { PokemonDetailProps } from '../utils/parsePokemonDetailPage'
 
-interface PokemonSpritesProps {
-  data: PokemonDetailProps
-}
-
-export function PokemonSprites({ data }: PokemonSpritesProps) {
-  const { selectedSprite, setSelectedSprite } = usePokemonStore()
+export function PokemonSprites() {
+  const { selectedSprite, setSelectedSprite, sprites } = usePokemonStore()
 
   function renderSpriteButton(spriteUrl?: string | null) {
     if (!spriteUrl) {
       return (
-        <div
-          className="w-16 h-16 border-4 border-white rounded flex items-center
-          justify-center select-none"
-        >
+        <div className="w-16 h-16 border-4 border-white rounded flex items-center justify-center select-none">
           (x)
         </div>
       )
@@ -26,12 +18,15 @@ export function PokemonSprites({ data }: PokemonSpritesProps) {
       <button
         type="button"
         onClick={() => setSelectedSprite(spriteUrl)}
-        className={`w-16 h-16 border-4 rounded flex items-center justify-center
-          ${isSelected ? 'border-green-500 bg-green-100' : 'border-white bg-transparent'}`}
+        className={`w-16 h-16 border-4 rounded flex items-center justify-center ${
+          isSelected
+            ? 'border-green-500 bg-green-100'
+            : 'border-white bg-transparent'
+        }`}
       >
         <img
           src={spriteUrl}
-          alt={spriteUrl || 'Imagem de um pokémon'}
+          alt="Pokémon Sprite"
           className="object-contain w-full h-full cursor-pointer"
         />
       </button>
@@ -41,10 +36,10 @@ export function PokemonSprites({ data }: PokemonSpritesProps) {
   return (
     <div className="w-full">
       <div className="flex flex-row gap-2 justify-center items-center p-4">
-        {renderSpriteButton(data.sprite?.front_default)}
-        {renderSpriteButton(data.sprite?.back_default)}
-        {renderSpriteButton(data.sprite?.front_shiny)}
-        {renderSpriteButton(data.sprite?.back_shiny)}
+        {renderSpriteButton(sprites?.front_default)}
+        {renderSpriteButton(sprites?.back_default)}
+        {renderSpriteButton(sprites?.front_shiny)}
+        {renderSpriteButton(sprites?.back_shiny)}
       </div>
     </div>
   )

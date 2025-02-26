@@ -14,7 +14,7 @@ export function PokemonBasicInfo({
   return (
     <header className={`${backgroundClass}`}>
       <div className="flex flex-col gap-2 p-4">
-        <div className="text-slate-50 font-bold text-md">#{data?.id}</div>
+        <div className="text-slate-50 font-bold text-md">{`#${String(data?.id).padStart(4, '0')}`}</div>
         <div className="text-slate-50 font-bold text-3xl capitalize">
           {data?.name}
         </div>

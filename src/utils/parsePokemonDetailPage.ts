@@ -10,7 +10,10 @@ export interface PokemonDetailProps {
     front_shiny: string | null
     back_shiny?: string | null
   }
-  base_experience: number
+  stats: Array<{ stat: { name: string }; base_stat: number }>
+  height: number
+  weight: number
+  abilities: Array<{ ability: { name: string } }>
 }
 
 export function parsePokemonDetailPage(
@@ -38,6 +41,9 @@ export function parsePokemonDetailPage(
         detail.sprites.back_shiny ??
         null,
     },
-    base_experience: detail.base_experience,
+    stats: detail.stats,
+    height: detail.height,
+    weight: detail.weight,
+    abilities: detail.abilities,
   }
 }

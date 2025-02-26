@@ -33,4 +33,8 @@ export interface PokemonDetail {
     [key: string]: string | null
   }
   base_experience: number
+  stats: Array<{ base_stat: number; stat: { name: string; url: string } }>
+  height: number
+  weight: number
+  abilities: Array<{ ability: { name: string } }>
 }
