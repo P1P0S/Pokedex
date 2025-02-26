@@ -9,8 +9,13 @@ export function Home() {
     useState<PokemonCardData | null>(null)
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h1 className="text-2xl font-bold text-center pt-4">Pokédex</h1>
+    <div className="pt-4 flex flex-col justify-center items-center">
+      <a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer">
+        <img
+          src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
+          alt="pokéapi"
+        />
+      </a>
 
       <SearchPokemon onResult={setSearchedPokemon} />
 
