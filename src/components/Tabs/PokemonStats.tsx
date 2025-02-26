@@ -11,6 +11,9 @@ export function PokemonStats() {
 
   const maxStat = 255
 
+  const heightInMeters = data.height / 10
+  const weightInKg = data.weight / 10
+
   const statColors: Record<string, string> = {
     hp: 'bg-red-400',
     attack: 'bg-orange-400',
@@ -63,11 +66,11 @@ export function PokemonStats() {
       <div className="space-y-2 text-slate-700">
         <div className="flex flex-col justify-between">
           <span className="font-medium">Height</span>
-          <span className="font-bold">{data.height}m</span>
+          <span className="font-bold">{heightInMeters} m</span>
         </div>
         <div className="flex flex-col justify-between">
           <span className="font-medium">Weight</span>
-          <span className="font-bold">{data.weight}kg</span>
+          <span className="font-bold">{weightInKg} kg</span>
         </div>
         <div className="flex flex-col justify-between">
           <span className="font-medium">Base Experience</span>
