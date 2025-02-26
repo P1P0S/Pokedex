@@ -64,13 +64,13 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
         <button
           type="button"
           onClick={handleSearch}
-          className="mt-2 p-2 bg-blue-500 text-white rounded-md"
+          className="mt-2 p-2 bg-blue-500 text-white rounded-md cursor-pointer"
         >
           Search
         </button>
-        {searchInput && (
+        {(searchInput || searchData) && (
           <button
-            className="mt-2 ml-1 p-2 bg-red-600 text-white rounded-md"
+            className="mt-2 ml-1 p-2 bg-red-600 text-white rounded-md cursor-pointer"
             onClick={handleClear}
             type="button"
           >
