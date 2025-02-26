@@ -26,9 +26,15 @@ export function PokemonStats() {
     hp: 'HP',
   }
 
+  const handlePlaySound = () => {
+    if (!data?.cries.latest) return
+
+    const audio = new Audio(data.cries.latest)
+    audio.play()
+  }
+
   return (
     <div className="p-4 bg-white rounded-lg shadow-md space-y-4">
-      {/* Estatísticas */}
       <div className="space-y-2">
         {data.stats.map(({ stat, base_stat }) => {
           const widthPercent = (base_stat / maxStat) * 100
@@ -76,6 +82,7 @@ export function PokemonStats() {
 
       <button
         type="button"
+        onClick={handlePlaySound}
         className="flex items-center gap-2 text-green-600 font-bold"
       >
         <span className="w-8 h-8 flex items-center justify-center cursor-pointer bg-green-500 text-white rounded-full">

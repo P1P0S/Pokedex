@@ -14,6 +14,10 @@ export interface PokemonDetailProps {
   height: number
   weight: number
   abilities: Array<{ ability: { name: string } }>
+  cries: {
+    latest: string
+    legacy?: string
+  }
 }
 
 export function parsePokemonDetailPage(
@@ -45,5 +49,6 @@ export function parsePokemonDetailPage(
     height: detail.height,
     weight: detail.weight,
     abilities: detail.abilities,
+    cries: detail.cries,
   }
 }
