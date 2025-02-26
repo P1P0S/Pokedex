@@ -1,8 +1,8 @@
 import { usePokemonStore } from '../store/pokemonStore'
-import type { PokemonCardData } from '../utils/parsePokemonFrontPage'
+import type { PokemonDetailProps } from '../utils/parsePokemonDetailPage'
 
 type PokemonMainImageProps = {
-  data: PokemonCardData
+  data: PokemonDetailProps
 }
 
 export function PokemonMainImage({ data }: PokemonMainImageProps) {

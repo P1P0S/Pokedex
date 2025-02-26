@@ -16,7 +16,7 @@ export function PokemonCard({ id, name, types, sprite }: PokemonCardData) {
 
         {sprite ? (
           <img
-            src={sprite?.front_default || ''}
+            src={sprite.front_default || ''}
             alt={name}
             className="w-24 h-24 object-contain mb-2"
           />

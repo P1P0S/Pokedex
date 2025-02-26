@@ -8,7 +8,8 @@ export function PokemonGrid() {
   const { data, isLoading, error } = usePokemonList(page)
 
   if (isLoading) return <p className="text-center mt-8">Carregando...</p>
-  if (error) return <p className="text-center mt-8">Erro ao buscar Pokémon</p>
+  if (error)
+    return <p className="text-center mt-8">Error while fetching pokémon</p>
 
   return (
     <>
