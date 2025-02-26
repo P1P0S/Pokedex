@@ -62,6 +62,7 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
           placeholder="Search by name or ID"
           value={searchInput}
           onChange={e => setSearchInput(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handleSearch()}
           className="border-2 border-yellow-500 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-400
             px-4 py-2 w-full rounded-full shadow-md transition-all outline-none text-gray-800 font-semibold"
         />
