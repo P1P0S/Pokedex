@@ -4,7 +4,7 @@ import { PokemonDetailPage } from './pages/PokemonDetailPage'
 
 export function App() {
   return (
-    <main className="main-h-screen bg-gray-50">
+    <main className="min-h-svh bg-slate-100 pb-12">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />

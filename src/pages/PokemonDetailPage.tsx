@@ -26,7 +26,7 @@ export function PokemonDetailPage() {
   const pillClass = typeColors[mainType]?.pill ?? typeColors.normal.pill
 
   return (
-    <div className="flex flex-col items-center gap-6 mb-12">
+    <div className="flex flex-col items-center gap-6">
       <PokemonDetailHeader pillClass={`${pillClass}`} />
       <main className="w-[90%] md:w-[50%] lg:w-[50%] max-w-auto rounded-2xl overflow-hidden shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
         <PokemonBasicInfo
