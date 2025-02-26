@@ -63,14 +63,18 @@ export function PokemonStats() {
       <div className="space-y-2 text-slate-700">
         <div className="flex flex-col justify-between">
           <span className="font-medium">Height</span>
-          <span className="font-bold">{data.height} m</span>
+          <span className="font-bold">{data.height}m</span>
         </div>
         <div className="flex flex-col justify-between">
           <span className="font-medium">Weight</span>
-          <span className="font-bold">{data.weight} kg</span>
+          <span className="font-bold">{data.weight}kg</span>
         </div>
         <div className="flex flex-col justify-between">
-          <span className="font-medium">Habilidades</span>
+          <span className="font-medium">Base Experience</span>
+          <span className="font-bold">{data.base_experience}</span>
+        </div>
+        <div className="flex flex-col justify-between">
+          <span className="font-medium">Abilities</span>
           <span className="capitalize font-bold">
             {data.abilities
               .map(a => a.ability.name)

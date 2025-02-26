@@ -18,6 +18,7 @@ export interface PokemonDetailProps {
     latest: string
     legacy?: string
   }
+  base_experience: number
 }
 
 export function parsePokemonDetailPage(
@@ -50,5 +51,6 @@ export function parsePokemonDetailPage(
     weight: detail.weight,
     abilities: detail.abilities,
     cries: detail.cries,
+    base_experience: detail.base_experience,
   }
 }
