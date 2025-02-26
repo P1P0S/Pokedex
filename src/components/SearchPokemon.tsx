@@ -1,3 +1,4 @@
+import { MagnifyingGlass, X } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { getPokemonDetail } from '../services/pokeAPI'
@@ -12,6 +13,7 @@ interface SearchPokemonProps {
 
 export function SearchPokemon({ onResult }: SearchPokemonProps) {
   const [searchInput, setSearchInput] = useState('')
+  const [searchKey, setSearchKey] = useState(0)
 
   const {
     data: searchData,
@@ -19,7 +21,7 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
     isLoading,
     error,
   } = useQuery<PokemonCardData, Error>({
-    queryKey: ['pokemonSearch'],
+    queryKey: ['pokemonSearch', searchKey],
     queryFn: async () => {
       const detail = await getPokemonDetail(searchInput.trim())
       return parsePokemonFrontPage(detail)
@@ -49,37 +51,53 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
   function handleClear() {
     setSearchInput('')
     onResult(null)
+    setSearchKey(prev => prev + 1)
   }
 
   return (
-    <div className="mt-4 flex flex-col items-center">
-      <div className="mb-4 w-[500px]">
+    <div className="mt-6 flex flex-col items-center">
+      <div className="relative flex items-center w-[500px]">
         <input
           type="text"
-          placeholder="Search by name or id"
+          placeholder="Search by name or ID"
           value={searchInput}
           onChange={e => setSearchInput(e.target.value)}
-          className="border p-2 w-full rounded-sm"
+          className="border-2 border-yellow-500 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-400
+            px-4 py-2 w-full rounded-full shadow-md transition-all outline-none text-gray-800 font-semibold"
         />
+      </div>
+
+      <div className="mt-4 flex space-x-3">
         <button
           type="button"
           onClick={handleSearch}
-          className="mt-2 p-2 bg-blue-500 text-white rounded-md cursor-pointer"
+          disabled={isLoading}
+          className="flex flex-row items-center gap-1 px-6 py-2 bg-red-500 text-white font-bold rounded-full shadow-lg
+            active:scale-95 hover:bg-red-600 border-4 border-white cursor-pointer disabled:opacity-50"
         >
+          <MagnifyingGlass size={18} />
           Search
         </button>
-        {(searchInput || searchData) && (
+
+        {searchData && (
           <button
-            className="mt-2 ml-1 p-2 bg-red-600 text-white rounded-md cursor-pointer"
+            className="flex flex-row items-center gap-1 px-6 py-2 bg-gray-700 text-white font-bold rounded-full shadow-lg
+              active:scale-95 hover:bg-gray-800 border-4 border-white cursor-pointer"
             onClick={handleClear}
             type="button"
           >
+            <X size={18} className="text-red-600" />
             Clear
           </button>
         )}
       </div>
-      {error && <p className="text-red-600">Pokémon not found</p>}
-      {isLoading && <p>Loading...</p>}
+
+      {error && (
+        <p className="text-red-600 font-bold mt-2">Pokémon not found</p>
+      )}
+      {isLoading && (
+        <p className="text-gray-600 font-semibold mt-2">Loading...</p>
+      )}
     </div>
   )
 }
