@@ -9,19 +9,14 @@ export function Home() {
     useState<PokemonCardData | null>(null)
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <h1 className="text-2xl font-bold text-center pt-4">Pokédex</h1>
 
       <SearchPokemon onResult={setSearchedPokemon} />
 
       {searchedPokemon ? (
         <div className="flex flex-col items-center justify-center mt-8">
-          <PokemonCard
-            id={searchedPokemon.id}
-            name={searchedPokemon.name}
-            types={searchedPokemon.types}
-            sprite={searchedPokemon.sprite}
-          />
+          <PokemonCard {...searchedPokemon} />
         </div>
       ) : (
         <PokemonGrid />

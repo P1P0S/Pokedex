@@ -9,7 +9,9 @@ export function PokemonCard({ id, name, types, sprite }: PokemonCardData) {
   return (
     <Link to={`/pokemon/${name}`}>
       <div
-        className={`rounded-lg p-4 text-white flex flex-col items-center justify-center shadow-md ${backgroundClass}`}
+        className={`rounded-lg p-4 text-white flex flex-col items-center justify-center 
+            shadow-md transition-transform transform hover:-translate-y-1
+            hover:shadow-lg ${backgroundClass}`}
         style={{ minWidth: '180px' }}
       >
         <p className="text-sm font-bold">{`#${String(id).padStart(4, '0')}`}</p>

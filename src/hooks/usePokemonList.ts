@@ -7,5 +7,6 @@ export function usePokemonList(page: number) {
     queryKey: ['listPokemonFrontPage', page],
     queryFn: () => listPokemonFrontPage(page),
     staleTime: 1000 * 60 * 5,
+    placeholderData: previousData => previousData ?? [],
   })
 }
