@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { PokemonCard } from '../components/PokemonCard'
 import { PokemonGrid } from '../components/PokemonGrid'
 import { SearchPokemon } from '../components/SearchPokemon'
-import type { PokemonCardData } from '../utils/parsePokemonFrontPage'
+import type { PokemonDetail } from '../types/pokemon'
 
 export function Home() {
-  const [searchedPokemon, setSearchedPokemon] =
-    useState<PokemonCardData | null>(null)
+  const [searchedPokemon, setSearchedPokemon] = useState<PokemonDetail | null>(
+    null
+  )
 
   return (
     <div className="pt-4 flex flex-col justify-center items-center">

@@ -2,13 +2,10 @@ import { MagnifyingGlass, X } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { getPokemonDetail } from '../services/pokeAPI'
-import {
-  type PokemonCardData,
-  parsePokemonFrontPage,
-} from '../utils/parsePokemonFrontPage'
+import type { PokemonDetail } from '../types/pokemon'
 
 interface SearchPokemonProps {
-  onResult: (data: PokemonCardData | null) => void
+  onResult: (data: PokemonDetail | null) => void
 }
 
 export function SearchPokemon({ onResult }: SearchPokemonProps) {
@@ -20,11 +17,11 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
     refetch,
     isLoading,
     error,
-  } = useQuery<PokemonCardData, Error>({
+  } = useQuery<PokemonDetail, Error>({
     queryKey: ['pokemonSearch', searchKey],
     queryFn: async () => {
       const detail = await getPokemonDetail(searchInput.trim())
-      return parsePokemonFrontPage(detail)
+      return detail
     },
     retry: 2,
     enabled: false,

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
-import type { PokemonCardData } from '../utils/parsePokemonFrontPage'
+import type { PokemonDetail } from '../types/pokemon'
 import { typeColors } from '../utils/pokemonTypeColors'
 
-export function PokemonCard({ id, name, types, sprite }: PokemonCardData) {
-  const mainType = types[0] || 'normal'
+export function PokemonCard({ id, name, types, sprites }: PokemonDetail) {
+  const mainType = types[0]?.type.name || 'normal'
   const backgroundClass = typeColors[mainType]?.card ?? typeColors.normal.card
 
   return (
@@ -16,9 +16,9 @@ export function PokemonCard({ id, name, types, sprite }: PokemonCardData) {
       >
         <p className="text-sm font-bold">{`#${String(id).padStart(4, '0')}`}</p>
 
-        {sprite ? (
+        {sprites?.front_default ? (
           <img
-            src={sprite.front_default || ''}
+            src={sprites.front_default}
             alt={name}
             className="w-24 h-24 object-contain mb-2"
           />
@@ -31,14 +31,15 @@ export function PokemonCard({ id, name, types, sprite }: PokemonCardData) {
         <h3 className="text-lg font-bold capitalize">{name}</h3>
 
         <div className="flex space-x-2 mt-2">
-          {types.map(type => {
-            const pillClass = typeColors[type]?.pill ?? typeColors.normal.pill
+          {types.map(({ type }) => {
+            const pillClass =
+              typeColors[type.name]?.pill ?? typeColors.normal.pill
             return (
               <span
-                key={type}
+                key={type.name}
                 className={`text-xs font-semibold px-2 py-1 ${pillClass} rounded-full capitalize`}
               >
-                {type}
+                {type.name}
               </span>
             )
           })}

@@ -1,7 +1,7 @@
-import type { PokemonCardData } from '../utils/parsePokemonFrontPage'
+import type { PokemonDetail } from '../types/pokemon'
 
 type PokemonBasicInfoProps = {
-  data: PokemonCardData
+  data: PokemonDetail
   backgroundClass: string
   typeColors: Record<string, { card: string; pill: string }>
 }
@@ -19,14 +19,15 @@ export function PokemonBasicInfo({
           {data.name}
         </div>
         <div className="flex flex-row gap-2">
-          {data?.types.map(type => {
-            const pillClass = typeColors[type]?.pill ?? typeColors.normal.pill
+          {data?.types.map(({ type }) => {
+            const pillClass =
+              typeColors[type.name]?.pill ?? typeColors.normal.pill
             return (
               <span
-                key={type}
+                key={type.name}
                 className={`text-slate-50 ${pillClass} font-bold text-sm px-2 py-1 rounded-2xl uppercase`}
               >
-                {type}
+                {type.name}
               </span>
             )
           })}
