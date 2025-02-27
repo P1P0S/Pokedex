@@ -1,9 +1,9 @@
-import { useTabStore } from '../../store/pokemonStore'
+import { useState } from 'react'
 import { PokemonMoves } from './PokemonMoves'
 import { PokemonStats } from './PokemonStats'
 
 export function PokemonTabs() {
-  const { activeTab, setActiveTab } = useTabStore()
+  const [activeTab, setActiveTab] = useState<'stats' | 'moves'>('stats')
 
   return (
     <div className="w-full">

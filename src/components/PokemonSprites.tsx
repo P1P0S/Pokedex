@@ -1,7 +1,16 @@
-import { usePokemonStore } from '../store/pokemonStore'
+import { useState } from 'react'
 
-export function PokemonSprites() {
-  const { selectedSprite, setSelectedSprite, sprites } = usePokemonStore()
+interface PokemonSpritesProps {
+  sprites: {
+    front_default?: string | null
+    back_default?: string | null
+    front_shiny?: string | null
+    back_shiny?: string | null
+  }
+}
+
+export function PokemonSprites({ sprites }: PokemonSpritesProps) {
+  const [selectedSprite, setSelectedSprite] = useState<string | null>(null)
 
   function renderSpriteButton(spriteUrl?: string | null) {
     if (!spriteUrl) {
@@ -36,10 +45,10 @@ export function PokemonSprites() {
   return (
     <div className="w-full">
       <div className="flex flex-row gap-2 justify-center items-center p-4">
-        {renderSpriteButton(sprites?.front_default)}
-        {renderSpriteButton(sprites?.back_default)}
-        {renderSpriteButton(sprites?.front_shiny)}
-        {renderSpriteButton(sprites?.back_shiny)}
+        {/* {renderSpriteButton(sprites.front_default) } */}
+        {/* {renderSpriteButton(sprites.back_default)} */}
+        {/* {renderSpriteButton(sprites.front_shiny)} */}
+        {/* {renderSpriteButton(sprites.back_shiny)} */}
       </div>
     </div>
   )
