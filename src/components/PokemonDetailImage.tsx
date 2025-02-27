@@ -1,7 +1,6 @@
-import { useEffect } from 'react'
-import { usePokemonStore } from '../store/pokemonStore'
+import { useEffect, useState } from 'react'
 
-interface PokemonSpritesProps {
+interface PokemonDetailProps {
   sprites: {
     front_default?: string | null
     back_default?: string | null
@@ -10,21 +9,18 @@ interface PokemonSpritesProps {
   }
 }
 
-export function PokemonSprites({ sprites }: PokemonSpritesProps) {
-  const { selectedSprite, setSelectedSprite } = usePokemonStore()
+export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
+  const [selectedSprite, setSelectedSprite] = useState<string | null>(null)
 
   useEffect(() => {
-    const firstSprite =
+    const initialSprite =
       sprites.front_default ||
       sprites.back_default ||
       sprites.front_shiny ||
       sprites.back_shiny ||
       null
-
-    if (!selectedSprite && firstSprite) {
-      setSelectedSprite(firstSprite)
-    }
-  }, [sprites, selectedSprite, setSelectedSprite])
+    setSelectedSprite(initialSprite)
+  }, [sprites])
 
   function renderSpriteButton(spriteUrl?: string | null) {
     if (!spriteUrl) {
@@ -57,7 +53,14 @@ export function PokemonSprites({ sprites }: PokemonSpritesProps) {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-slate-300">
+      <div className="flex p-8 flex-col items-center">
+        <img
+          src={selectedSprite || sprites?.front_default || undefined}
+          alt="Pokémon"
+          className="mt-4 w-48 h-48"
+        />
+      </div>
       <div className="flex flex-row gap-2 justify-center items-center p-4">
         {renderSpriteButton(sprites.front_default)}
         {renderSpriteButton(sprites.back_default)}

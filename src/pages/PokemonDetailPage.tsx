@@ -1,22 +1,12 @@
-import { useEffect } from 'react'
 import { PokemonBasicInfo } from '../components/PokemonBasicInfo'
 import { PokemonDetailHeader } from '../components/PokemonDetailHeader'
-import { PokemonMainImage } from '../components/PokemonImage'
-import { PokemonSprites } from '../components/PokemonSprites'
+import { PokemonDetailImage } from '../components/PokemonDetailImage'
 import { PokemonTabs } from '../components/Tabs/PokemonTabs'
 import { usePokemonDetail } from '../hooks/usePokemonDetail'
-import { usePokemonStore } from '../store/pokemonStore'
 import { typeColors } from '../utils/pokemonTypeColors'
 
 export function PokemonDetailPage() {
   const { data, isLoading, error } = usePokemonDetail()
-  const { setPokemonSprites } = usePokemonStore()
-
-  useEffect(() => {
-    if (data?.sprites) {
-      setPokemonSprites(data.sprites)
-    }
-  }, [data, setPokemonSprites])
 
   if (isLoading) return <p>Loading...</p>
   if (error || !data) return <p>Error while fetching Pokémon</p>
@@ -34,8 +24,7 @@ export function PokemonDetailPage() {
           backgroundClass={backgroundClass}
           typeColors={typeColors}
         />
-        <PokemonMainImage />
-        <PokemonSprites sprites={data.sprites} />
+        <PokemonDetailImage sprites={data?.sprites} />
         <PokemonTabs />
       </main>
     </div>
