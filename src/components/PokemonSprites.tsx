@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { usePokemonStore } from '../store/pokemonStore'
 
 interface PokemonSpritesProps {
   sprites: {
@@ -10,7 +11,20 @@ interface PokemonSpritesProps {
 }
 
 export function PokemonSprites({ sprites }: PokemonSpritesProps) {
-  const [selectedSprite, setSelectedSprite] = useState<string | null>(null)
+  const { selectedSprite, setSelectedSprite } = usePokemonStore()
+
+  useEffect(() => {
+    const firstSprite =
+      sprites.front_default ||
+      sprites.back_default ||
+      sprites.front_shiny ||
+      sprites.back_shiny ||
+      null
+
+    if (!selectedSprite && firstSprite) {
+      setSelectedSprite(firstSprite)
+    }
+  }, [sprites, selectedSprite, setSelectedSprite])
 
   function renderSpriteButton(spriteUrl?: string | null) {
     if (!spriteUrl) {
@@ -45,10 +59,10 @@ export function PokemonSprites({ sprites }: PokemonSpritesProps) {
   return (
     <div className="w-full">
       <div className="flex flex-row gap-2 justify-center items-center p-4">
-        {/* {renderSpriteButton(sprites.front_default) } */}
-        {/* {renderSpriteButton(sprites.back_default)} */}
-        {/* {renderSpriteButton(sprites.front_shiny)} */}
-        {/* {renderSpriteButton(sprites.back_shiny)} */}
+        {renderSpriteButton(sprites.front_default)}
+        {renderSpriteButton(sprites.back_default)}
+        {renderSpriteButton(sprites.front_shiny)}
+        {renderSpriteButton(sprites.back_shiny)}
       </div>
     </div>
   )

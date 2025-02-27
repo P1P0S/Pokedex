@@ -1,17 +1,17 @@
 import { create } from 'zustand'
-import type { PokemonDetailProps } from '../utils/parsePokemonDetailPage'
+import type { PokemonDetail } from '../types/pokemon'
 
 interface PokemonStore {
   selectedSprite: string | null
-  sprites: PokemonDetailProps['sprite'] | null
+  sprites: PokemonDetail['sprites'] | null
   setSelectedSprite: (sprite: string) => void
-  setPokemonSprites: (sprites: PokemonDetailProps['sprite']) => void
+  setPokemonSprites: (sprites: PokemonDetail['sprites']) => void
 }
 
 export const usePokemonStore = create<PokemonStore>(set => ({
   selectedSprite: null,
   sprites: null,
   setSelectedSprite: (sprite: string) => set({ selectedSprite: sprite }),
-  setPokemonSprites: (sprites: PokemonDetailProps['sprite']) =>
+  setPokemonSprites: (sprites: PokemonDetail['sprites']) =>
     set({ sprites, selectedSprite: sprites?.front_default ?? null }),
 }))

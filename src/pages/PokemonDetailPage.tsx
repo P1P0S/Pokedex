@@ -13,15 +13,15 @@ export function PokemonDetailPage() {
   const { setPokemonSprites } = usePokemonStore()
 
   useEffect(() => {
-    if (data?.sprite) {
-      setPokemonSprites(data.sprite)
+    if (data?.sprites) {
+      setPokemonSprites(data.sprites)
     }
   }, [data, setPokemonSprites])
 
   if (isLoading) return <p>Loading...</p>
   if (error || !data) return <p>Error while fetching Pokémon</p>
 
-  const mainType = data?.types[0] || 'normal'
+  const mainType = data?.types[0]?.type.name || 'normal'
   const backgroundClass = typeColors[mainType]?.card ?? typeColors.normal.card
   const pillClass = typeColors[mainType]?.pill ?? typeColors.normal.pill
 
@@ -35,7 +35,7 @@ export function PokemonDetailPage() {
           typeColors={typeColors}
         />
         <PokemonMainImage />
-        <PokemonSprites />
+        <PokemonSprites sprites={data.sprites} />
         <PokemonTabs />
       </main>
     </div>
