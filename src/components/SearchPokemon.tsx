@@ -1,7 +1,6 @@
 import { MagnifyingGlass, X } from '@phosphor-icons/react'
-import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { getPokemonDetail } from '../services/pokeAPI'
+import { usePokemonSearch } from '../hooks/usePokemonSearch'
 import type { PokemonDetail } from '../types/pokemon'
 
 interface SearchPokemonProps {
@@ -10,22 +9,9 @@ interface SearchPokemonProps {
 
 export function SearchPokemon({ onResult }: SearchPokemonProps) {
   const [searchInput, setSearchInput] = useState('')
-  const [searchKey, setSearchKey] = useState(0)
+  const [searchKey, setSearchKey] = useState('')
 
-  const {
-    data: searchData,
-    refetch,
-    isLoading,
-    error,
-  } = useQuery<PokemonDetail, Error>({
-    queryKey: ['pokemonSearch', searchKey],
-    queryFn: async () => {
-      const detail = await getPokemonDetail(searchInput.trim())
-      return detail
-    },
-    retry: 2,
-    enabled: false,
-  })
+  const { data: searchData, isLoading, error } = usePokemonSearch(searchKey)
 
   useEffect(() => {
     if (isLoading) return
@@ -39,16 +25,15 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
   }, [searchData, error, isLoading, onResult])
 
   function handleSearch() {
-    const normalizeInput = searchInput.replace(' ', '-').toLowerCase()
-    if (!normalizeInput.trim()) return
-    setSearchInput(normalizeInput)
-    refetch()
+    const normalizedInput = searchInput.replace(' ', '-').toLowerCase()
+    if (!normalizedInput.trim()) return
+    setSearchKey(normalizedInput)
   }
 
   function handleClear() {
     setSearchInput('')
+    setSearchKey('')
     onResult(null)
-    setSearchKey(prev => prev + 1)
   }
 
   return (
