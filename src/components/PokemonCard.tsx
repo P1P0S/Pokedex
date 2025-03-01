@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom'
+import { usePokemonSpriteStore } from '../store/pokemonStore'
 import type { PokemonDetail } from '../types/pokemon'
 import { typeColors } from '../utils/pokemonTypeColors'
 
 export function PokemonCard({ id, name, types, sprites }: PokemonDetail) {
   const mainType = types[0]?.type.name || 'normal'
   const backgroundClass = typeColors[mainType]?.card ?? typeColors.normal.card
+
+  const { getSpriteUrl } = usePokemonSpriteStore()
+  const spriteUrl = getSpriteUrl(sprites)
 
   return (
     <Link to={`/pokemon/${name}`}>
@@ -16,9 +20,9 @@ export function PokemonCard({ id, name, types, sprites }: PokemonDetail) {
       >
         <p className="text-sm font-bold">{`#${String(id).padStart(4, '0')}`}</p>
 
-        {sprites?.front_default ? (
+        {spriteUrl ? (
           <img
-            src={sprites.front_default}
+            src={spriteUrl}
             alt={name}
             className="w-24 h-24 object-contain mb-2"
           />
