@@ -6,7 +6,7 @@ import {
 } from '../store/pokemonStore'
 
 export function PokemonSpriteSelect() {
-  const { selectedOther, selectedVariant, setGeneration, setVariant } =
+  const { selectedOther, selectedVariant, setOther, setVariant } =
     usePokemonSpriteStore()
 
   const generations: { value: SpriteOther; label: string }[] = [
@@ -47,7 +47,7 @@ export function PokemonSpriteSelect() {
           <select
             id="generation"
             value={selectedOther}
-            onChange={e => setGeneration(e.target.value as SpriteOther)}
+            onChange={e => setOther(e.target.value as SpriteOther)}
             className="w-full px-3 py-2 bg-white border border-gray-300 
             rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 
             focus:border-blue-500"

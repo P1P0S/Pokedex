@@ -18,7 +18,7 @@ interface PokemonSpriteStore {
   selectedOther: SpriteOther
   selectedVariant: SpriteVariant
 
-  setGeneration: (generation: SpriteOther) => void
+  setOther: (generation: SpriteOther) => void
   setVariant: (variant: SpriteVariant) => void
 
   getSpriteUrl: (sprites: PokemonDetail['sprites'] | null) => string | null
@@ -30,7 +30,7 @@ export const usePokemonSpriteStore = create<PokemonSpriteStore>()(
       selectedOther: 'official-artwork',
       selectedVariant: 'front_default',
 
-      setGeneration: generation => set({ selectedOther: generation }),
+      setOther: generation => set({ selectedOther: generation }),
       setVariant: variant => set({ selectedVariant: variant }),
 
       getSpriteUrl: sprites => {
