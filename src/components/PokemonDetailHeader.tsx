@@ -7,17 +7,27 @@ type PokemonDetailHeaderProps = {
 
 export function PokemonDetailHeader({ pillClass }: PokemonDetailHeaderProps) {
   return (
-    <header className={`p-4 w-full ${pillClass} flex flex-row justify-between`}>
-      <Link to="/" className="font-bold flex flex-row items-center text-white">
-        <ArrowLeft size={24} className="inline mr-2 text-white" weight="bold" />
-        Back
+    <header
+      className={`p-4 w-full ${pillClass} flex items-center justify-between shadow-md`}
+    >
+      <Link
+        to="/"
+        className="flex items-center gap-2 text-white font-semibold text-lg transition-all duration-200 hover:opacity-80"
+      >
+        <ArrowLeft size={28} className="text-white" weight="bold" />
+        <span className="hidden sm:inline">Back</span>
       </Link>
 
-      <a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://pokeapi.co/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="transition-transform duration-200 hover:scale-110"
+      >
         <img
-          className="w-16"
+          className="w-20 sm:w-24 drop-shadow-lg"
           src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
-          alt="pokeapi"
+          alt="PokeAPI"
         />
       </a>
     </header>

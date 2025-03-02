@@ -136,11 +136,11 @@ export function PokemonStats() {
       <div className="grid grid-cols-2 gap-4 w-full">
         <div className="flex flex-col">
           <span className="font-medium flex items-center">Height</span>
-          <span className="font-bold">{heightInMeters} m</span>
+          <span className="font-bold">{heightInMeters}m</span>
         </div>
         <div className="flex flex-col">
           <span className="font-medium flex items-center">Weight</span>
-          <span className="font-bold">{weightInKg} kg</span>
+          <span className="font-bold">{weightInKg}kg</span>
         </div>
         <div className="flex flex-col">
           <span className="font-medium flex items-center">Base Experience</span>

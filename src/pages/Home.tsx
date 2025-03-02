@@ -16,7 +16,7 @@ export function Home() {
         href="https://pokeapi.co/"
         target="_blank"
         rel="noopener noreferrer"
-        className="mb-4"
+        className="mb-4 transition-transform duration-200 hover:scale-105"
       >
         <img
           src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"

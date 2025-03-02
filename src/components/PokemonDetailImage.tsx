@@ -1,35 +1,5 @@
 import { usePokemonSpriteStore } from '../store/pokemonStore'
-import type { SpriteVariant } from '../types/pokemon'
-
-interface PokemonDetailProps {
-  sprites: {
-    front_default?: string | null
-    back_default?: string | null
-    front_shiny?: string | null
-    back_shiny?: string | null
-    versions?: Record<
-      string,
-      Record<
-        string,
-        Partial<{
-          front_default: string | null
-          back_default: string | null
-          front_shiny: string | null
-          back_shiny: string | null
-        }>
-      >
-    >
-    other?: Record<
-      string,
-      Partial<{
-        front_default: string | null
-        back_default: string | null
-        front_shiny: string | null
-        back_shiny: string | null
-      }>
-    >
-  }
-}
+import type { PokemonDetailProps, SpriteVariant } from '../types/pokemon'
 
 export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
   const {
@@ -98,12 +68,12 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
   }
 
   return (
-    <div className="w-full bg-slate-300">
+    <div className="w-full bg-slate-300" w-64 h-64 object-contain>
       <div className="flex p-8 flex-col items-center">
         <img
           src={selectedSprite || undefined}
           alt="Pokémon"
-          className="mt-4 w-48 h-48"
+          className="mt-4 w-64 h-64 object-contain"
         />
       </div>
       <div className="flex flex-row gap-2 justify-center items-center p-4">
