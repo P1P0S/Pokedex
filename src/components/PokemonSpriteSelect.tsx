@@ -80,7 +80,7 @@ export function PokemonSpriteSelect() {
       label: 'Generation V',
       games: [
         { value: 'black-white', label: 'Black / White' },
-        { value: 'animated', label: 'Animated' },
+        { value: 'animated', label: 'Black / White (Animated)' },
       ],
     },
     {
@@ -99,7 +99,7 @@ export function PokemonSpriteSelect() {
       label: 'Generation VII',
       games: [
         { value: 'ultra-sun-ultra-moon', label: 'Ultra Sun / Ultra Moon' },
-        { value: 'icons', label: 'icons' },
+        { value: 'icons', label: 'Ultra Sun / Ultra Moon (Icons)' },
       ],
     },
   ]
