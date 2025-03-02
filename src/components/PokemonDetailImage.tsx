@@ -1,7 +1,5 @@
-import {
-  type SpriteVariant,
-  usePokemonSpriteStore,
-} from '../store/pokemonStore'
+import { usePokemonSpriteStore } from '../store/pokemonStore'
+import type { SpriteVariant } from '../types/pokemon'
 
 interface PokemonDetailProps {
   sprites: {
@@ -9,6 +7,18 @@ interface PokemonDetailProps {
     back_default?: string | null
     front_shiny?: string | null
     back_shiny?: string | null
+    versions?: Record<
+      string,
+      Record<
+        string,
+        Partial<{
+          front_default: string | null
+          back_default: string | null
+          front_shiny: string | null
+          back_shiny: string | null
+        }>
+      >
+    >
     other?: Record<
       string,
       Partial<{
@@ -22,28 +32,54 @@ interface PokemonDetailProps {
 }
 
 export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
-  const { selectedOther, selectedVariant, setVariant, getSpriteUrl } =
-    usePokemonSpriteStore()
+  const {
+    selectedOther,
+    selectedGeneration,
+    selectedVariant,
+    selectedGame,
+    setVariant,
+    getSpriteUrl,
+  } = usePokemonSpriteStore()
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const selectedSprite = getSpriteUrl(sprites as any)
+  const selectedSprite = getSpriteUrl({
+    ...sprites,
+    other: sprites.other ?? {},
+  })
 
-  function renderSpriteButton(
-    spriteType: SpriteVariant,
-    spriteUrl?: string | null
-  ) {
-    if (!spriteUrl) {
+  const spriteVariants: SpriteVariant[] = [
+    'front_default',
+    'back_default',
+    'front_shiny',
+    'back_shiny',
+  ]
+
+  function getSpriteUrlForVariant(variant: SpriteVariant) {
+    if (selectedOther) {
+      return sprites.other?.[selectedOther]?.[variant] ?? null
+    }
+
+    if (selectedGeneration && selectedGame) {
       return (
-        <div className="w-16 h-16 border-4 border-white rounded flex items-center justify-center select-none">
-          (x)
-        </div>
+        sprites.versions?.[selectedGeneration]?.[selectedGame]?.[variant] ??
+        null
       )
+    }
+
+    return sprites[variant] ?? null
+  }
+
+  function renderSpriteButton(spriteType: SpriteVariant) {
+    const spriteUrl = getSpriteUrlForVariant(spriteType)
+
+    if (!spriteUrl) {
+      return
     }
 
     const isSelected = selectedVariant === spriteType
 
     return (
       <button
+        key={spriteType}
         type="button"
         onClick={() => setVariant(spriteType)}
         className={`w-16 h-16 border-4 rounded flex items-center justify-center ${
@@ -71,30 +107,7 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
         />
       </div>
       <div className="flex flex-row gap-2 justify-center items-center p-4">
-        {renderSpriteButton(
-          'front_default',
-          selectedOther
-            ? sprites.other?.[selectedOther]?.front_default
-            : sprites.front_default
-        )}
-        {renderSpriteButton(
-          'back_default',
-          selectedOther
-            ? sprites.other?.[selectedOther]?.back_default
-            : sprites.back_default
-        )}
-        {renderSpriteButton(
-          'front_shiny',
-          selectedOther
-            ? sprites.other?.[selectedOther]?.front_shiny
-            : sprites.front_shiny
-        )}
-        {renderSpriteButton(
-          'back_shiny',
-          selectedOther
-            ? sprites.other?.[selectedOther]?.back_shiny
-            : sprites.back_shiny
-        )}
+        {spriteVariants.map(renderSpriteButton)}
       </div>
     </div>
   )

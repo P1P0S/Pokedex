@@ -1,15 +1,26 @@
 import { Gear } from '@phosphor-icons/react'
-import {
-  type SpriteOther,
-  type SpriteVariant,
-  usePokemonSpriteStore,
-} from '../store/pokemonStore'
+import { useCallback, useEffect } from 'react'
+import { usePokemonSpriteStore } from '../store/pokemonStore'
+import type {
+  SpriteGame,
+  SpriteGeneration,
+  SpriteOther,
+  SpriteVariant,
+} from '../types/pokemon'
 
 export function PokemonSpriteSelect() {
-  const { selectedOther, selectedVariant, setOther, setVariant } =
-    usePokemonSpriteStore()
+  const {
+    selectedOther,
+    selectedGeneration,
+    selectedVariant,
+    selectedGame,
+    setOther,
+    setGeneration,
+    setVariant,
+    setGame,
+  } = usePokemonSpriteStore()
 
-  const generations: { value: SpriteOther; label: string }[] = [
+  const others: { value: SpriteOther; label: string }[] = [
     { value: 'official-artwork', label: 'Official Artwork' },
     { value: 'showdown', label: 'Showdown' },
     { value: 'home', label: 'HOME' },
@@ -23,11 +34,116 @@ export function PokemonSpriteSelect() {
     { value: 'back_shiny', label: 'Back Shiny' },
   ]
 
-  // Determine if variant selection should be disabled
-  const isVariantDisabled =
-    selectedOther === 'dream_world' ||
-    (selectedOther === 'official-artwork' &&
-      !['front_default', 'front_shiny'].includes(selectedVariant))
+  const generations: {
+    value: SpriteGeneration
+    label: string
+    games: { value: SpriteGame; label: string }[]
+  }[] = [
+    {
+      value: 'generation-i',
+      label: 'Generation I',
+      games: [
+        { value: 'red-blue', label: 'Red / Blue' },
+        { value: 'yellow', label: 'Yellow' },
+      ],
+    },
+    {
+      value: 'generation-ii',
+      label: 'Generation II',
+      games: [
+        { value: 'gold', label: 'Gold' },
+        { value: 'silver', label: 'Silver' },
+        { value: 'crystal', label: 'Crystal' },
+      ],
+    },
+    {
+      value: 'generation-iii',
+      label: 'Generation III',
+      games: [
+        { value: 'ruby-sapphire', label: 'Ruby / Sapphire' },
+        { value: 'emerald', label: 'Emerald' },
+        { value: 'firered-leafgreen', label: 'FireRed / LeafGreen' },
+      ],
+    },
+    {
+      value: 'generation-iv',
+      label: 'Generation IV',
+      games: [
+        { value: 'diamond-pearl', label: 'Diamond / Pearl' },
+        { value: 'heartgold-soulsilver', label: 'HeartGold / SoulSilver' },
+      ],
+    },
+    {
+      value: 'generation-v',
+      label: 'Generation V',
+      games: [
+        { value: 'black-white', label: 'Black / White' },
+        { value: 'animated', label: 'Animated' },
+      ],
+    },
+    {
+      value: 'generation-vi',
+      label: 'Generation VI',
+      games: [
+        {
+          value: 'omegaruby-alphasapphire',
+          label: 'Omega Ruby / Alpha Sapphire',
+        },
+        { value: 'x-y', label: 'X / Y' },
+      ],
+    },
+    {
+      value: 'generation-vii',
+      label: 'Generation VII',
+      games: [
+        { value: 'ultra-sun-ultra-moon', label: 'Ultra Sun / Ultra Moon' },
+        { value: 'icons', label: 'icons' },
+      ],
+    },
+  ]
+
+  const isGameValidForGeneration = useCallback(() => {
+    if (!selectedGeneration) return false
+    const currentGen = generations.find(g => g.value === selectedGeneration)
+    return currentGen?.games.some(game => game.value === selectedGame)
+  }, [selectedGeneration, selectedGame])
+
+  useEffect(() => {
+    if (!selectedGeneration && !selectedOther) {
+      setOther('official-artwork')
+    }
+
+    if (selectedGeneration && !isGameValidForGeneration()) {
+      const currentGen = generations.find(g => g.value === selectedGeneration)
+      if (currentGen) setGame(currentGen.games[0].value)
+    }
+
+    if (!selectedVariant) {
+      setVariant('front_default')
+    }
+  }, [
+    selectedGeneration,
+    selectedOther,
+    selectedVariant,
+    setGame,
+    setOther,
+    setVariant,
+    isGameValidForGeneration,
+  ])
+
+  const allowedVariants = new Set<string>()
+
+  if (selectedOther === 'official-artwork') {
+    allowedVariants.add('front_default').add('front_shiny')
+  } else if (selectedOther === 'dream_world') {
+    allowedVariants.add('front_default')
+  } else if (selectedGame === 'emerald') {
+    allowedVariants.add('front_default').add('front_shiny')
+  } else if (selectedGame === 'ultra-sun-ultra-moon') {
+    allowedVariants.add('front_default').add('front_shiny')
+  } else if (selectedGame === 'icons') {
+    allowedVariants.add('front_default')
+  }
 
   return (
     <div className="w-full max-w-md mx-auto bg-white p-4 rounded-lg shadow-md mb-6">
@@ -39,75 +155,93 @@ export function PokemonSpriteSelect() {
       <div className="space-y-4">
         <div>
           <label
-            htmlFor="generation"
+            htmlFor="spriteType"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Sprites
+            Select Model
           </label>
           <select
-            id="generation"
-            value={selectedOther}
-            onChange={e => setOther(e.target.value as SpriteOther)}
-            className="w-full px-3 py-2 bg-white border border-gray-300 
-            rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 
-            focus:border-blue-500"
+            id="spriteType"
+            value={selectedOther || selectedGeneration || ''}
+            onChange={e => {
+              const value = e.target.value
+              if (others.some(o => o.value === value)) {
+                setOther(value as SpriteOther)
+                setGeneration(null)
+                setGame(null)
+              } else {
+                setGeneration(value as SpriteGeneration)
+                setOther(null)
+              }
+            }}
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
-            <optgroup label="Other Sprites">
+            <optgroup label="Game Versions">
               {generations.map(gen => (
                 <option key={gen.value} value={gen.value}>
                   {gen.label}
                 </option>
               ))}
             </optgroup>
+            <optgroup label="Other Sprites">
+              {others.map(other => (
+                <option key={other.value} value={other.value}>
+                  {other.label}
+                </option>
+              ))}
+            </optgroup>
           </select>
         </div>
+
+        {selectedGeneration && (
+          <div>
+            <label
+              htmlFor="game"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Game
+            </label>
+            <select
+              id="game"
+              value={selectedGame || ''}
+              onChange={e => setGame(e.target.value as SpriteGame)}
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              {generations
+                .find(g => g.value === selectedGeneration)
+                ?.games.map(game => (
+                  <option key={game.value} value={game.value}>
+                    {game.label}
+                  </option>
+                ))}
+            </select>
+          </div>
+        )}
 
         <div>
           <label
             htmlFor="variant"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Sprite Variant
+            Select Variant
           </label>
           <select
             id="variant"
             value={selectedVariant}
             onChange={e => setVariant(e.target.value as SpriteVariant)}
-            disabled={isVariantDisabled}
             className="w-full px-3 py-2 bg-white border border-gray-300 
               rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 
               focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
           >
             {variants.map(variant => {
-              // For official-artwork, only show front_default and front_shiny
-              if (
-                selectedOther === 'official-artwork' &&
-                !['front_default', 'front_shiny'].includes(variant.value)
-              ) {
-                return null
-              }
+              const isAllowed =
+                allowedVariants.size === 0 || allowedVariants.has(variant.value)
 
-              // For dream_world, only show front_default
-              if (
-                selectedOther === 'dream_world' &&
-                variant.value !== 'front_default'
-              ) {
-                return null
-              }
-
-              // For home, only show front_default and front_shiny
-              if (
-                selectedOther === 'home' &&
-                !['front_default', 'front_shiny'].includes(variant.value)
-              ) {
-                return null
-              }
-
-              return (
+              return isAllowed ? (
                 <option key={variant.value} value={variant.value}>
                   {variant.label}
                 </option>
-              )
+              ) : null
             })}
           </select>
         </div>

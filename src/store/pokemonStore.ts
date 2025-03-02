@@ -1,55 +1,72 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { PokemonDetail } from '../types/pokemon'
-
-export type SpriteOther =
-  | 'showdown'
-  | 'home'
-  | 'dream_world'
-  | 'official-artwork'
-
-export type SpriteVariant =
-  | 'front_default'
-  | 'back_default'
-  | 'front_shiny'
-  | 'back_shiny'
-
-interface PokemonSpriteStore {
-  selectedOther: SpriteOther
-  selectedVariant: SpriteVariant
-
-  setOther: (generation: SpriteOther) => void
-  setVariant: (variant: SpriteVariant) => void
-
-  getSpriteUrl: (sprites: PokemonDetail['sprites'] | null) => string | null
-}
+import type { PokemonSpriteStore } from '../types/pokemon'
 
 export const usePokemonSpriteStore = create<PokemonSpriteStore>()(
   persist(
     (set, get) => ({
-      selectedOther: 'official-artwork',
+      selectedOther: null,
       selectedVariant: 'front_default',
+      selectedGeneration: null,
+      selectedGame: null,
 
-      setOther: generation => set({ selectedOther: generation }),
+      setOther: other => set({ selectedOther: other }),
       setVariant: variant => set({ selectedVariant: variant }),
+      setGeneration: generation => set({ selectedGeneration: generation }),
+      setGame: game => set({ selectedGame: game }),
 
       getSpriteUrl: sprites => {
         if (!sprites) return null
 
-        const { selectedOther, selectedVariant } = get()
+        const {
+          selectedOther,
+          selectedGeneration,
+          selectedGame,
+          selectedVariant,
+        } = get()
 
-        const otherSprites =
-          sprites.other?.[selectedOther as keyof typeof sprites.other]
+        const otherKey: string | null = selectedOther || selectedGeneration
 
-        return (
-          otherSprites?.[selectedVariant] ||
-          otherSprites?.front_default ||
-          sprites.front_default
-        )
+        if (otherKey && sprites.other && otherKey in sprites.other) {
+          const spriteOther =
+            sprites.other[otherKey as keyof typeof sprites.other]
+          return (
+            spriteOther?.[selectedVariant as keyof typeof spriteOther] ||
+            spriteOther?.front_default ||
+            sprites.front_default
+          )
+        }
+
+        if (
+          selectedGeneration &&
+          selectedGame &&
+          sprites.versions &&
+          selectedGeneration in sprites.versions
+        ) {
+          const genSprites = sprites.versions[selectedGeneration]
+
+          if (genSprites) {
+            let gameSprites =
+              genSprites[selectedGame as keyof typeof genSprites] || null
+
+            if (
+              selectedGeneration === 'generation-v' &&
+              selectedGame === 'animated'
+            ) {
+              gameSprites = genSprites['black-white']?.animated || gameSprites
+            }
+
+            return (
+              gameSprites?.[selectedVariant as keyof typeof gameSprites] ||
+              gameSprites?.front_default ||
+              sprites.front_default
+            )
+          }
+        }
+
+        return sprites.front_default ?? null
       },
     }),
-    {
-      name: 'pokemon-sprite-settings',
-    }
+    { name: 'pokemon-sprite-settings' }
   )
 )
