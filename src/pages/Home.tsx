@@ -23,13 +23,10 @@ export function Home() {
           alt="pokéapi"
         />
       </a>
-
       <PokemonSpriteSelect />
-
       <SearchPokemon onResult={setSearchedPokemon} />
-
       {searchedPokemon ? (
-        <div className="flex flex-col items-center justify-center mt-8">
+        <div className="flex flex-col items-center justify-center mt-12">
           <PokemonCard {...searchedPokemon} />
         </div>
       ) : (
