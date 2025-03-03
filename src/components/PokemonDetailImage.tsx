@@ -52,7 +52,8 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
         key={spriteType}
         type="button"
         onClick={() => setVariant(spriteType)}
-        className={`w-16 h-16 border-4 rounded flex items-center justify-center ${
+        aria-label={`Selecionar sprite ${spriteType}`}
+        className={`w-16 h-16 border-2 rounded-xl flex items-center justify-center ${
           isSelected
             ? 'border-green-500 bg-green-100'
             : 'border-white bg-transparent'
@@ -60,7 +61,7 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
       >
         <img
           src={spriteUrl}
-          alt="Pokémon Sprite"
+          alt={`Sprite ${spriteType}`}
           className="object-contain w-full h-full cursor-pointer"
         />
       </button>
@@ -68,15 +69,16 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
   }
 
   return (
-    <div className="w-full bg-slate-300" w-64 h-64 object-contain>
-      <div className="flex p-8 flex-col items-center">
+    <div className="relative w-full bg-gradient-to-br from-[#a8dadc] to-[#457b9d]">
+      <div className="flex p-8 flex-col items-center relative">
+        <span className="absolute bg-white/90 w-full h-1 top-50" />
         <img
           src={selectedSprite || undefined}
           alt="Pokémon"
-          className="mt-4 w-64 h-64 object-contain"
+          className="mt-4 w-64 h-64 object-contain z-10 transition-transform transform hover:-translate-y-1"
         />
       </div>
-      <div className="flex flex-row gap-2 justify-center items-center p-4">
+      <div className="flex flex-wrap gap-2 justify-center items-center p-4 z-20">
         {spriteVariants.map(renderSpriteButton)}
       </div>
     </div>
