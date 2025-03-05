@@ -8,13 +8,9 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
     selectedVariant,
     selectedGame,
     setVariant,
-    getSpriteUrl,
   } = usePokemonSpriteStore()
 
-  const selectedSprite = getSpriteUrl({
-    ...sprites,
-    other: sprites.other ?? {},
-  })
+  const selectedSprite = getSpriteUrlForVariant(selectedVariant)
 
   const spriteVariants: SpriteVariant[] = [
     'front_default',
@@ -28,24 +24,28 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
       return sprites.other?.[selectedOther]?.[variant] ?? null
     }
 
-    if (selectedGeneration && selectedGame) {
-      return (
-        sprites.versions?.[selectedGeneration]?.[selectedGame]?.[variant] ??
-        null
-      )
-    }
+    const availableGeneration =
+      selectedGeneration && typeof selectedGeneration === 'string'
+        ? selectedGeneration
+        : 'official-artwork'
 
-    return sprites[variant] ?? null
+    const availableGame =
+      selectedGame && typeof selectedGame === 'string' ? selectedGame : null
+
+    const spriteUrl =
+      (availableGame &&
+        sprites.versions?.[availableGeneration]?.[availableGame]?.[variant]) ??
+      sprites[variant] ??
+      null
+
+    return spriteUrl
   }
 
   function renderSpriteButton(spriteType: SpriteVariant) {
     const spriteUrl = getSpriteUrlForVariant(spriteType)
-
-    if (!spriteUrl) {
-      return
-    }
-
     const isSelected = selectedVariant === spriteType
+
+    if (!spriteUrl) return null
 
     return (
       <button
@@ -78,7 +78,7 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
           className="mt-4 w-64 h-64 object-contain z-10 transition-transform transform hover:-translate-y-1"
         />
       </div>
-      <div className="flex flex-wrap gap-2 justify-center items-center p-4 z-20">
+      <div className="flex flex-row gap-2 justify-center items-center p-4 z-20">
         {spriteVariants.map(renderSpriteButton)}
       </div>
     </div>
