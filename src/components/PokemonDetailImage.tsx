@@ -32,11 +32,22 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
     const availableGame =
       selectedGame && typeof selectedGame === 'string' ? selectedGame : null
 
-    const spriteUrl =
-      (availableGame &&
-        sprites.versions?.[availableGeneration]?.[availableGame]?.[variant]) ??
-      sprites[variant] ??
-      null
+    let spriteUrl =
+      availableGame &&
+      sprites.versions?.[availableGeneration]?.[availableGame]?.[variant]
+
+    if (!spriteUrl) {
+      spriteUrl = sprites[variant] ?? null
+    }
+
+    if (selectedGame === 'animated') {
+      spriteUrl =
+        sprites.versions?.[availableGeneration]?.['black-white']?.[
+          selectedGame
+        ]?.[variant] ?? null
+    }
+
+    console.log('spriteUrl', spriteUrl)
 
     return spriteUrl
   }

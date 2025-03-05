@@ -17,21 +17,7 @@ export interface PokemonDetail {
     slot: number
     type: { name: string; url: string }
   }>
-  sprites: {
-    other: {
-      showdown: {
-        front_default: string | null
-        back_default?: string | null
-        front_shiny?: string | null
-        back_shiny?: string | null
-      }
-    }
-    front_default: string | null
-    back_default: string | null
-    front_shiny: string | null
-    back_shiny: string | null
-    [key: string]: string | null
-  }
+  sprites: PokemonSprites
   base_experience: number
   stats: Array<{ base_stat: number; stat: { name: string; url: string } }>
   height: number
@@ -42,6 +28,35 @@ export interface PokemonDetail {
     legacy: string
   }
   moves: Array<{ move: { name: string } }>
+}
+
+export type PokemonSprites = {
+  front_default?: string | null
+  back_default?: string | null
+  front_shiny?: string | null
+  back_shiny?: string | null
+  versions?: Record<
+    string,
+    Record<
+      string,
+      Partial<{
+        front_default: string | null
+        back_default: string | null
+        front_shiny: string | null
+        back_shiny: string | null
+        animated?: Record<string, string | null>
+      }>
+    >
+  >
+  other?: Record<
+    string,
+    Partial<{
+      front_default: string | null
+      back_default: string | null
+      front_shiny: string | null
+      back_shiny: string | null
+    }>
+  >
 }
 
 export type SpriteOther =
@@ -99,32 +114,6 @@ interface PokemonSpriteStore {
   getSpriteUrl: (sprites: PokemonDetail['sprites'] | null) => string | null
 }
 
-interface PokemonDetailProps {
-  sprites: {
-    front_default?: string | null
-    back_default?: string | null
-    front_shiny?: string | null
-    back_shiny?: string | null
-    versions?: Record<
-      string,
-      Record<
-        string,
-        Partial<{
-          front_default: string | null
-          back_default: string | null
-          front_shiny: string | null
-          back_shiny: string | null
-        }>
-      >
-    >
-    other?: Record<
-      string,
-      Partial<{
-        front_default: string | null
-        back_default: string | null
-        front_shiny: string | null
-        back_shiny: string | null
-      }>
-    >
-  }
+export interface PokemonDetailProps {
+  sprites: PokemonSprites
 }
