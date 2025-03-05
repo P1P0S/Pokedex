@@ -75,7 +75,7 @@ export function PokemonStats() {
         })}
       </div>
 
-      <div className="grid grid-cols-2 gap-4 w-full">
+      <div className="flex flex-col gap-4 w-fit">
         <div className="flex flex-col">
           <span className="font-medium flex items-center">Height</span>
           <span className="font-bold">{heightInMeters}m</span>
@@ -88,11 +88,17 @@ export function PokemonStats() {
           <span className="font-medium flex items-center">Base Experience</span>
           <span className="font-bold">{data.base_experience}</span>
         </div>
-        <div className="flex flex-col">
-          <span className="font-medium flex items-center">Abilities</span>
-          <span className="capitalize font-bold">
-            {data.abilities.map(a => a.ability.name).join(', ')}
-          </span>
+        <div className="inline-flex flex-col justify-center gap-2">
+          <span className="font-medium">Abilities</span>
+          {data.abilities.map(a => (
+            <span
+              key={a.ability.name}
+              className="bg-zinc-300 rounded-lg p-2 capitalize font-bold mb-2 w-fit"
+            >
+              {a.ability.name}
+              {a.is_hidden && ' (Hidden)'}
+            </span>
+          ))}
         </div>
       </div>
     </div>

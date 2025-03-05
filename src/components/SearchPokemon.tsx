@@ -56,7 +56,7 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
             border border-gray-200 cursor-pointer disabled:opacity-50 transition-all duration-200"
         >
           <MagnifyingGlass size={18} />
-          Buscar
+          Search
         </button>
       </div>
 

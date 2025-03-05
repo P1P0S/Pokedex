@@ -44,10 +44,10 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
       spriteUrl =
         sprites.versions?.[availableGeneration]?.['black-white']?.[
           selectedGame
-        ]?.[variant] ?? null
+        ]?.[variant] ??
+        sprites.other?.['official-artwork']?.[variant] ??
+        null
     }
-
-    console.log('spriteUrl', spriteUrl)
 
     return spriteUrl
   }

@@ -22,7 +22,7 @@ export interface PokemonDetail {
   stats: Array<{ base_stat: number; stat: { name: string; url: string } }>
   height: number
   weight: number
-  abilities: Array<{ ability: { name: string } }>
+  abilities: Array<{ ability: { name: string }; is_hidden: boolean }>
   cries: {
     latest: string
     legacy: string
