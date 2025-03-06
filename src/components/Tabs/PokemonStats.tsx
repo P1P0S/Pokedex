@@ -6,11 +6,6 @@ export function PokemonStats() {
   const { data, isLoading, error } = usePokemonDetail()
   const [animatedStats, setAnimatedStats] = useState<Record<string, number>>({})
 
-  if (isLoading) return <p>Loading stats...</p>
-  if (error || !data) {
-    return <p>Error while fetching stats</p>
-  }
-
   useEffect(() => {
     if (data?.stats) {
       // biome-ignore lint/complexity/noForEach: <explanation>
@@ -21,6 +16,11 @@ export function PokemonStats() {
       })
     }
   }, [data])
+
+  if (isLoading) return <p>Loading stats...</p>
+  if (error || !data) {
+    return <p>Error while fetching stats</p>
+  }
 
   const maxStat = 255
   const heightInMeters = data.height / 10
@@ -42,61 +42,69 @@ export function PokemonStats() {
   }
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md space-y-4">
-      <h2 className="text-xl gap-2 font-bold mb-4 text-green-600 flex items-center">
-        <Lightning weight="fill" />
+    <div className="p-5 bg-white rounded-lg shadow-lg">
+      <h2 className="text-xl gap-2 font-bold mb-6 text-green-600 flex items-center pb-3">
+        <Lightning weight="fill" size={24} />
         Pokémon Stats
       </h2>
 
-      <div className="space-y-2">
+      <div className="space-y-4">
         {data.stats.map(({ stat, base_stat }) => {
           const widthPercent = ((animatedStats[stat.name] || 0) / maxStat) * 100
           return (
             <div
               key={stat.name}
-              className="flex items-center gap-2 font-bold capitalize text-base text-slate-700"
+              className="flex flex-row content-center gap-3 font-bold capitalize text-gray-800"
             >
               <span className="w-1/3">
                 {statLabels[stat.name] ?? stat.name}
               </span>
-              <span className="w-8 text-right">{base_stat}</span>
-              <div className="relative w-full h-3 bg-gray-200 rounded overflow-hidden">
+              {/* <span className="w-10 text-right">{base_stat}</span> */}
+              <div className="w-full h-6 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className={`h-full rounded ${statColors[stat.name] ?? 'bg-gray-400'}`}
+                  className={`h-full relative rounded-full ${statColors[stat.name] ?? 'bg-gray-400'}`}
                   style={{
                     width: `${widthPercent}%`,
                     transition: 'width 1.5s ease-in-out',
                   }}
                 />
               </div>
-              <span className="w-8 text-left">{maxStat}</span>
+              <div className="ml-3 w-12 text-right">
+                <span className="text-gray-700 font-bold">{base_stat}</span>
+              </div>
+              <span className="w-10 text-left text-gray-400">{maxStat}</span>
             </div>
           )
         })}
       </div>
 
-      <div className="flex flex-col gap-4 w-fit">
-        <div className="flex flex-col">
-          <span className="font-medium flex items-center">Height</span>
-          <span className="font-bold">{heightInMeters}m</span>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <span className="font-medium text-gray-600">Height</span>
+          <p className="font-bold text-xl">{heightInMeters}m</p>
         </div>
-        <div className="flex flex-col">
-          <span className="font-medium flex items-center">Weight</span>
-          <span className="font-bold">{weightInKg}kg</span>
+
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <span className="font-medium text-gray-600">Weight</span>
+          <p className="font-bold text-xl">{weightInKg}kg</p>
         </div>
-        <div className="flex flex-col">
-          <span className="font-medium flex items-center">Base Experience</span>
-          <span className="font-bold">{data.base_experience}</span>
+
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <span className="font-medium text-gray-600">Base Experience</span>
+          <p className="font-bold text-xl">{data.base_experience}</p>
         </div>
-        <div className="inline-flex flex-col justify-center gap-2">
-          <span className="font-medium">Abilities</span>
+      </div>
+
+      <div className="mt-8">
+        <h3 className="font-medium text-gray-600 mb-3">Abilities</h3>
+        <div className="flex flex-wrap gap-2">
           {data.abilities.map(a => (
             <span
               key={a.ability.name}
-              className="bg-zinc-300 rounded-lg p-2 capitalize font-bold mb-2 w-fit"
+              className="bg-gray-400 rounded-lg px-3 py-2 capitalize font-bold"
             >
               {a.ability.name}
-              {a.is_hidden && ' (Hidden)'}
+              {a.is_hidden && <span className="text-gray-500"> (Hidden)</span>}
             </span>
           ))}
         </div>

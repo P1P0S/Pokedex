@@ -22,14 +22,14 @@ export function PokemonMoves() {
   }
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md space-y-4">
-      <h2 className="text-xl gap-2 font-bold mb-4 text-green-600 flex items-center">
-        <Lightning weight="fill" />
+    <div className="p-5 bg-white rounded-lg shadow-lg">
+      <h2 className="text-xl gap-2 font-bold mb-6 text-green-600 flex items-center pb-3">
+        <Lightning weight="fill" size={24} />
         Pokémon Moves
       </h2>
 
       <div className="max-h-60 overflow-y-auto pr-2 rounded-md">
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
           {data.moves.map(({ move }) => (
             <div
               key={move.name}

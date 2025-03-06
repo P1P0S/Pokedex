@@ -1,7 +1,11 @@
 import { usePokemonSpriteStore } from '../store/pokemonStore'
 import type { PokemonDetailProps, SpriteVariant } from '../types/pokemon'
 
-export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
+export function PokemonDetailImage({
+  sprites,
+  pillClass,
+  bgClass,
+}: PokemonDetailProps) {
   const {
     selectedOther,
     selectedGeneration,
@@ -80,9 +84,10 @@ export function PokemonDetailImage({ sprites }: PokemonDetailProps) {
   }
 
   return (
-    <div className="relative w-full bg-gradient-to-br from-[#a8dadc] to-[#457b9d]">
+    <div
+      className={`w-full bg-gradient-to-b from-[${bgClass}] to-[${pillClass}]`}
+    >
       <div className="flex p-8 flex-col items-center relative">
-        <span className="absolute bg-white/90 w-full h-1 top-50" />
         <img
           src={selectedSprite || undefined}
           alt="Pokémon"

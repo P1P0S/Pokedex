@@ -24,7 +24,11 @@ export function PokemonDetailPage() {
           backgroundClass={backgroundClass}
           typeColors={typeColors}
         />
-        <PokemonDetailImage sprites={data?.sprites} />
+        <PokemonDetailImage
+          pillClass={pillClass}
+          bgClass={backgroundClass}
+          sprites={data?.sprites}
+        />
         <PokemonTabs />
       </main>
     </div>
