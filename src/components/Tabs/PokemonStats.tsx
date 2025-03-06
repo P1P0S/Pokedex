@@ -101,7 +101,7 @@ export function PokemonStats() {
           {data.abilities.map(a => (
             <span
               key={a.ability.name}
-              className="bg-gray-400 rounded-lg px-3 py-2 capitalize font-bold"
+              className="bg-gray-100 rounded-lg px-3 py-2 capitalize font-bold"
             >
               {a.ability.name}
               {a.is_hidden && <span className="text-gray-500"> (Hidden)</span>}

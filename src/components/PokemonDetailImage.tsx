@@ -1,11 +1,16 @@
 import { usePokemonSpriteStore } from '../store/pokemonStore'
 import type { PokemonDetailProps, SpriteVariant } from '../types/pokemon'
 
+interface PokemonBgProps {
+  pillClass: string
+  bgClass: string
+}
+
 export function PokemonDetailImage({
   sprites,
   pillClass,
   bgClass,
-}: PokemonDetailProps) {
+}: PokemonDetailProps & PokemonBgProps) {
   const {
     selectedOther,
     selectedGeneration,
