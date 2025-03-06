@@ -46,9 +46,11 @@ export function PokemonAbout() {
     if (!isPlaying) {
       if (audioType === 'latest' && latestAudioRef.current) {
         latestAudioRef.current.currentTime = 0
+        latestAudioRef.current.volume = 0.5
         latestAudioRef.current.play()
       } else if (audioType === 'legacy' && legacyAudioRef.current) {
         legacyAudioRef.current.currentTime = 0
+        legacyAudioRef.current.volume = 0.5
         legacyAudioRef.current.play()
       }
       setPlayingAudio(audioType)
