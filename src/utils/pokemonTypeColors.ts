@@ -72,3 +72,15 @@ export const typeColors: Record<string, { card: string; pill: string }> = {
     pill: 'bg-rose-600',
   },
 }
+
+export const moveStatusColors: Record<string, { pill: string }> = {
+  psychicStatus: {
+    pill: 'bg-pink-800',
+  },
+  special: {
+    pill: 'bg-indigo-800',
+  },
+  status: {
+    pill: 'bg-gray-800',
+  },
+}

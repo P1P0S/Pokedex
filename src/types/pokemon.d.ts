@@ -30,6 +30,14 @@ export interface PokemonDetail {
   moves: Array<{ move: { name: string } }>
 }
 
+export interface PokemonMoveDetails {
+  type?: { name: string }
+  damage_class?: { name: string }
+  power?: number | null
+  accuracy?: number | null
+  pp?: number | null
+}
+
 export type PokemonSprites = {
   front_default?: string | null
   back_default?: string | null

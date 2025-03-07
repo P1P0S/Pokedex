@@ -76,10 +76,10 @@ export function PokemonAbout() {
   }
 
   return (
-    <div className="p-5 bg-white rounded-lg shadow-md space-y-4">
-      <h2 className="text-xl gap-2 font-bold mb-4 text-green-600 flex items-center">
-        <Lightning weight="fill" />
-        About Pokémon
+    <div className="p-5 bg-white rounded-lg shadow-lg">
+      <h2 className="text-xl gap-2 font-bold mb-6 text-green-600 flex items-center pb-3">
+        <Lightning weight="fill" size={24} />
+        Pokémon Moves
       </h2>
 
       <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
