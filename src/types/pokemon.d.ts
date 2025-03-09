@@ -67,6 +67,32 @@ export type PokemonSprites = {
   >
 }
 
+export type PokemonSpecies = {
+  base_happiness?: number
+  capture_rate?: number
+  evolution_chain?: {
+    url?: string
+  }
+  evolves_from_species?: {
+    url?: string
+  }
+  flavor_text_entries?: Array<{
+    flavor_text?: string
+    language?: {
+      name?: string
+    }
+  }>
+  generation?: {
+    name?: string
+  }
+  growth_rate?: {
+    name?: string
+  }
+  habitat?: {
+    name?: string
+  }
+}
+
 export type SpriteOther =
   | 'showdown'
   | 'home'

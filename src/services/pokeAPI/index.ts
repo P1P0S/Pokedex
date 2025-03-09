@@ -2,6 +2,7 @@ import type {
   PokemonDetail,
   PokemonListResponse,
   PokemonMoveDetails,
+  PokemonSpecies,
 } from '../../types/pokemon'
 
 const POKEMON_API_URL = 'https://pokeapi.co/api/v2/'
@@ -42,6 +43,21 @@ export async function getPokemonDetailMoves(
   if (!res.ok) {
     throw new Error(
       `An error occurred while fetching Pokémon Moves ${nameOrId}`
+    )
+  }
+
+  return res.json()
+}
+
+export async function getPokemonSpecies(
+  nameOrId: string | number
+): Promise<PokemonSpecies> {
+  const url = `${POKEMON_API_URL}pokemon-species/${nameOrId}`
+  const res = await fetch(url)
+
+  if (!res.ok) {
+    throw new Error(
+      `An error occurred while fetching Pokémon Species ${nameOrId}`
     )
   }
 
