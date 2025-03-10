@@ -1,3 +1,4 @@
+import { Lightning } from '@phosphor-icons/react'
 import { useParams } from 'react-router-dom'
 import { usePokemonAbout } from '../../hooks/usePokemonAbout'
 import { usePokemonEvolutionChain } from '../../hooks/usePokemonEvolutionChain'
@@ -35,12 +36,18 @@ export function PokemonEvolutionChain() {
   const evolutionNames = extractEvolutionNames(evolutionData.chain)
 
   return (
-    <div>
-      <h2>{speciesData.name} Evolution Chain</h2>
-      <div className="flex gap-4">
-        {evolutionNames.map(name => (
-          <EvolutionCard key={name} name={name} />
-        ))}
+    <div className="p-5 bg-white rounded-lg shadow-lg">
+      <h2 className="capitalize text-xl gap-2 font-bold mb-4 text-green-600 flex items-center">
+        <Lightning weight="fill" size={24} />
+        {speciesData.name} Evolution Chain
+      </h2>
+
+      <div className="flex flex-col">
+        <div className="grid grid-cols-3 gap-4 justify-items-center">
+          {evolutionNames.map(name => (
+            <EvolutionCard key={name} name={name} />
+          ))}
+        </div>
       </div>
     </div>
   )

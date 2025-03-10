@@ -32,7 +32,7 @@ export function PokemonAbout() {
 
   return (
     <div className="p-5 bg-white rounded-lg shadow-lg">
-      <h2 className="text-xl gap-2 font-semibold mb-4 text-green-600 flex items-center">
+      <h2 className="text-xl gap-2 font-bold mb-4 text-green-600 flex items-center">
         <Lightning weight="fill" size={24} />
         About Pokémon
       </h2>
