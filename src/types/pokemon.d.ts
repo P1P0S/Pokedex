@@ -70,10 +70,12 @@ export type PokemonSprites = {
 export type PokemonSpecies = {
   base_happiness?: number
   capture_rate?: number
+  name?: string
   evolution_chain?: {
     url?: string
   }
   evolves_from_species?: {
+    name?: string
     url?: string
   }
   flavor_text_entries?: Array<{
@@ -91,6 +93,16 @@ export type PokemonSpecies = {
   habitat?: {
     name?: string
   }
+  evolution_chain?: {
+    url?: string
+  }
+}
+
+export type PokemonChain = {
+  id: number
+  species: { name: string }
+  evolves_to: EvolutionNode[]
+  chain: Array
 }
 
 export type SpriteOther =

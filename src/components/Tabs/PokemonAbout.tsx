@@ -81,9 +81,11 @@ export function PokemonAbout() {
         </div>
 
         <div className="bg-gray-50 p-4 rounded-lg">
-          <span className="font-medium text-gray-600">Evolution</span>
+          <span className="font-medium text-gray-600">Evolves From</span>
           <p className="font-bold text-xl">
-            {aboutData?.evolves_from_species ? 'Has evolution' : 'Base form'}
+            {aboutData?.evolves_from_species
+              ? aboutData.evolves_from_species.name
+              : 'Base form'}
           </p>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import type {
+  PokemonChain,
   PokemonDetail,
   PokemonListResponse,
   PokemonMoveDetails,
@@ -59,6 +60,19 @@ export async function getPokemonSpecies(
     throw new Error(
       `An error occurred while fetching Pokémon Species ${nameOrId}`
     )
+  }
+
+  return res.json()
+}
+
+export async function getPokemonEvolutionChain(
+  id: number
+): Promise<PokemonChain> {
+  const url = `${POKEMON_API_URL}evolution-chain/${id}`
+  const res = await fetch(url)
+
+  if (!res.ok) {
+    throw new Error(`An error occurred while fetching Pokémon Chain ${id}`)
   }
 
   return res.json()

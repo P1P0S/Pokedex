@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { PokemonAbout } from './PokemonAbout'
+import { PokemonEvolutionChain } from './PokemonEvolutionChain'
 import { PokemonMoves } from './PokemonMoves'
 import { PokemonStats } from './PokemonStats'
 
 export function PokemonTabs() {
-  const [activeTab, setActiveTab] = useState<'stats' | 'moves' | 'about'>(
-    'stats'
-  )
+  const [activeTab, setActiveTab] = useState<
+    'stats' | 'moves' | 'evolution' | 'about'
+  >('stats')
 
   return (
     <div className="w-full">
@@ -41,6 +42,20 @@ export function PokemonTabs() {
 
         <button
           type="button"
+          onClick={() => setActiveTab('evolution')}
+          className={`px-4 py-2 text-lg font-bold cursor-pointer
+            ${
+              activeTab === 'evolution'
+                ? 'text-green-600 border-b-4 border-green-600 -mb-[1px]'
+                : 'text-gray-500 border-b-4 border-transparent -mb-[1px]'
+            }
+          `}
+        >
+          Evolution
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveTab('about')}
           className={`px-4 py-2 text-lg font-bold cursor-pointer
             ${
@@ -56,6 +71,7 @@ export function PokemonTabs() {
 
       {activeTab === 'stats' && <PokemonStats />}
       {activeTab === 'moves' && <PokemonMoves />}
+      {activeTab === 'evolution' && <PokemonEvolutionChain />}
       {activeTab === 'about' && <PokemonAbout />}
     </div>
   )
