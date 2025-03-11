@@ -117,50 +117,46 @@ export function PokemonCries({ data }: any) {
           </div>
         </div>
 
-        <div className="max-h-60 overflow-y-auto pr-2 rounded-md">
-          <div className="bg-white p-3 rounded-md shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-bold text-sm text-gray-700">
-                Legacy Cry
-              </span>
-              <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                Classic
-              </span>
-            </div>
+        <div className="bg-white p-3 rounded-md shadow-sm hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between mb-2">
+            <span className="font-bold text-sm text-gray-700">Legacy Cry</span>
+            <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+              Classic
+            </span>
+          </div>
 
-            <div className="flex items-center space-x-2">
-              <button
-                type="button"
-                onClick={() => handlePlayAudio('legacy')}
-                disabled={isLegacyEnabled}
-                className={`w-10 h-10 cursor-pointer rounded-full flex items-center justify-center disabled:opacity-50
+          <div className="flex items-center space-x-2">
+            <button
+              type="button"
+              onClick={() => handlePlayAudio('legacy')}
+              disabled={isLegacyEnabled}
+              className={`w-10 h-10 cursor-pointer rounded-full flex items-center justify-center disabled:opacity-50
                   ${
                     playingAudio === 'legacy'
                       ? 'bg-red-500 text-white'
                       : 'bg-blue-500 text-white'
                   }`}
-              >
-                {playingAudio === 'legacy' ? (
-                  <Spinner className="animate-spin" />
-                ) : (
-                  <Play weight="fill" size={14} />
-                )}
-              </button>
+            >
+              {playingAudio === 'legacy' ? (
+                <Spinner className="animate-spin" />
+              ) : (
+                <Play weight="fill" size={14} />
+              )}
+            </button>
 
-              <div className="w-full">
-                {/* biome-ignore lint/a11y/useMediaCaption: <explanation> */}
-                <audio
-                  ref={legacyAudioRef}
-                  src={data.cries.legacy}
-                  onTimeUpdate={e => updateProgress('legacy', e)}
-                  onEnded={handleAudioEnded}
+            <div className="w-full">
+              {/* biome-ignore lint/a11y/useMediaCaption: <explanation> */}
+              <audio
+                ref={legacyAudioRef}
+                src={data.cries.legacy}
+                onTimeUpdate={e => updateProgress('legacy', e)}
+                onEnded={handleAudioEnded}
+              />
+              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                <div
+                  className="bg-blue-500 h-full transition-all duration-100"
+                  style={{ width: `${progress.legacy}%` }}
                 />
-                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="bg-blue-500 h-full transition-all duration-100"
-                    style={{ width: `${progress.legacy}%` }}
-                  />
-                </div>
               </div>
             </div>
           </div>
