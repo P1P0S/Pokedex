@@ -54,42 +54,43 @@ export function PokemonStats() {
           return (
             <div
               key={stat.name}
-              className="flex flex-row content-center gap-3 font-bold capitalize text-gray-800"
+              className="flex flex-col sm:flex-row items-center gap-2 font-bold capitalize text-gray-800"
             >
-              <span className="w-1/3">
+              <span className="w-full sm:w-1/3 text-center sm:text-left">
                 {statLabels[stat.name] ?? stat.name}
               </span>
-              {/* <span className="w-10 text-right">{base_stat}</span> */}
-              <div className="w-full h-6 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className={`h-full relative rounded-full ${statColors[stat.name] ?? 'bg-gray-400'}`}
-                  style={{
-                    width: `${widthPercent}%`,
-                    transition: 'width 1.5s ease-in-out',
-                  }}
-                />
+              <div className="w-full sm:flex-1">
+                <div className="w-full h-6 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full relative rounded-full ${statColors[stat.name] ?? 'bg-gray-400'}`}
+                    style={{
+                      width: `${widthPercent}%`,
+                      transition: 'width 1.5s ease-in-out',
+                    }}
+                  />
+                </div>
               </div>
-              <div className="ml-3 w-12 text-right">
-                <span className="text-gray-700 font-bold">{base_stat}</span>
+              <div className="flex gap-2 items-center">
+                <span className="w-12 text-right">{base_stat}</span>
+                <span className="w-10 text-left text-gray-400">{maxStat}</span>
               </div>
-              <span className="w-10 text-left text-gray-400">{maxStat}</span>
             </div>
           )
         })}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
-        <div className="bg-gray-50 p-4 rounded-lg">
+        <div className="bg-gray-50 p-4 rounded-lg text-center">
           <span className="font-medium text-gray-600">Height</span>
           <p className="font-bold text-xl">{heightInMeters}m</p>
         </div>
 
-        <div className="bg-gray-50 p-4 rounded-lg">
+        <div className="bg-gray-50 p-4 rounded-lg text-center">
           <span className="font-medium text-gray-600">Weight</span>
           <p className="font-bold text-xl">{weightInKg}kg</p>
         </div>
 
-        <div className="bg-gray-50 p-4 rounded-lg">
+        <div className="bg-gray-50 p-4 rounded-lg text-center">
           <span className="font-medium text-gray-600">Base Experience</span>
           <p className="font-bold text-xl">{data.base_experience}</p>
         </div>
