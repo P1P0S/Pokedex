@@ -43,7 +43,7 @@ export function PokemonEvolutionChain() {
       </h2>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-3 gap-4 justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
           {evolutionNames.map(name => (
             <EvolutionCard key={name} name={name} />
           ))}

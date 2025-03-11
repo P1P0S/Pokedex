@@ -11,7 +11,7 @@ export function PokemonTabs() {
 
   return (
     <div className="w-full">
-      <nav className="flex gap-6 border-b border-slate-300">
+      <nav className="flex gap-6 border-b border-slate-300 overflow-x-auto overflow-y-hidden whitespace-nowrap">
         <button
           type="button"
           onClick={() => setActiveTab('stats')}

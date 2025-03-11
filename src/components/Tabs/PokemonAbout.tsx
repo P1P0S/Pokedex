@@ -82,7 +82,7 @@ export function PokemonAbout() {
 
         <div className="bg-gray-50 p-4 rounded-lg">
           <span className="font-medium text-gray-600">Evolves From</span>
-          <p className="font-bold text-xl">
+          <p className="font-bold text-xl capitalize">
             {aboutData?.evolves_from_species
               ? aboutData.evolves_from_species.name
               : 'Base form'}
