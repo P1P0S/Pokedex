@@ -13,7 +13,7 @@ export function usePokemonEvolutionChain(id?: number) {
     },
     enabled: !!id,
     staleTime: 1000 * 60 * 5,
-    retry: 2,
+    retry: 1,
   })
 }
 
@@ -26,6 +26,6 @@ export function useSinglePokemonDetail(name: string) {
     },
     enabled: !!name,
     staleTime: 1000 * 60 * 5,
-    retry: 2,
+    retry: 1,
   })
 }
