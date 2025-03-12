@@ -30,11 +30,15 @@ export const usePokemonSpriteStore = create<PokemonSpriteStore>()(
         if (otherKey && sprites.other && otherKey in sprites.other) {
           const spriteOther =
             sprites.other[otherKey as keyof typeof sprites.other]
-          return (
-            spriteOther?.[selectedVariant as keyof typeof spriteOther] ||
+
+          const url =
+            (typeof spriteOther === 'object' && spriteOther !== null
+              ? spriteOther[selectedVariant as keyof typeof spriteOther]
+              : null) ||
             spriteOther?.front_default ||
             sprites.front_default
-          )
+
+          return typeof url === 'string' ? url : null
         }
 
         if (
@@ -56,15 +60,18 @@ export const usePokemonSpriteStore = create<PokemonSpriteStore>()(
               gameSprites = genSprites['black-white']?.animated || gameSprites
             }
 
-            return (
+            const url =
               gameSprites?.[selectedVariant as keyof typeof gameSprites] ||
               gameSprites?.front_default ||
               sprites.front_default
-            )
+
+            return typeof url === 'string' ? url : null
           }
         }
 
-        return sprites.front_default ?? null
+        return typeof sprites.front_default === 'string'
+          ? sprites.front_default
+          : null
       },
     }),
     { name: 'pokemon-sprite-settings' }
