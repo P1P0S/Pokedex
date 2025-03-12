@@ -13,8 +13,7 @@ export function Home() {
   return (
     <div className="pt-4 flex flex-col justify-center items-center">
       <a
-        href="https://pokeapi.co/"
-        target="_blank"
+        href="/"
         rel="noopener noreferrer"
         className="mb-4 transition-transform duration-200 hover:scale-105"
       >

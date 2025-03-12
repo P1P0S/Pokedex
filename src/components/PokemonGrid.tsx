@@ -2,14 +2,20 @@ import { useState } from 'react'
 import { usePokemonList } from '../hooks/usePokemonList'
 import { Pagination } from './Pagination'
 import { PokemonCard } from './PokemonCard'
+import { PokemonGridSkeleton } from './skeleton/PokemonGridSekelton'
 
 export function PokemonGrid() {
   const [page, setPage] = useState(0)
-  const { data, isLoading, error } = usePokemonList(page)
+  const { data, isFetching, error } = usePokemonList(page)
 
-  if (isLoading) return <p className="text-center mt-8">Carregando...</p>
+  if (isFetching && (!data || data.length === 0)) return <PokemonGridSkeleton />
+
   if (error)
-    return <p className="text-center mt-8">Error while fetching pokémon</p>
+    return (
+      <p className="text-center mt-8 text-red-600 font-bold">
+        Error while fetching Pokémon
+      </p>
+    )
 
   return (
     <>
