@@ -152,7 +152,7 @@ export function PokemonSpriteSelect() {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-md mb-6 overflow-hidden transition-all duration-300">
+    <div className="md:w-full max-w-md mx-auto bg-white rounded-lg shadow-md mb-6 overflow-hidden transition-all duration-300">
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <div
         className="flex items-center p-4 cursor-pointer hover:bg-gray-50 transition-colors"
