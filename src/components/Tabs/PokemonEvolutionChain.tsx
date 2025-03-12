@@ -9,19 +9,29 @@ import { usePokemonAbout } from '../../hooks/usePokemonAbout'
 import { usePokemonEvolutionChain } from '../../hooks/usePokemonEvolutionChain'
 import { extractEvolutionsNames } from '../../utils/pokemonChainEvolutionNames'
 import { EvolutionCard } from '../PokemonEvolutionChainCard'
+import { PokemonEvolutionChainSkeleton } from '../skeleton/PokemonEvolutionChainSkeleton'
 
 export function PokemonEvolutionChain() {
   const { identifier } = useParams<{ identifier: string }>()
-  const { data: speciesData, error: speciesError } = usePokemonAbout(
-    identifier || ''
-  )
+  const {
+    data: speciesData,
+    isLoading: isSpeciesLoading,
+    error: speciesError,
+  } = usePokemonAbout(identifier || '')
 
   const evolutionChainId = speciesData?.evolution_chain?.url
     ?.split('/')
     .slice(-2, -1)[0]
 
-  const { data: evolutionData, error: evolutionError } =
-    usePokemonEvolutionChain(evolutionChainId ? Number(evolutionChainId) : 1)
+  const {
+    data: evolutionData,
+    isLoading: isEvolutionLoading,
+    error: evolutionError,
+  } = usePokemonEvolutionChain(evolutionChainId ? Number(evolutionChainId) : 1)
+
+  if (isSpeciesLoading || isEvolutionLoading) {
+    return <PokemonEvolutionChainSkeleton />
+  }
 
   if (speciesError || !speciesData) {
     return <div>Error loading Pokémon species</div>
