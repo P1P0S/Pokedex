@@ -4,11 +4,9 @@ import { usePokemonDetail } from '../../hooks/usePokemonDetail'
 import { PokemonCries } from '../PokemonCries'
 
 export function PokemonAbout() {
-  const { data, isLoading, error } = usePokemonDetail()
+  const { data, error } = usePokemonDetail()
   const { data: aboutData } = usePokemonAbout(data?.name || '')
 
-  if (isLoading)
-    return <div className="p-4 text-center text-gray-500">Loading about...</div>
   if (error || !data) {
     return (
       <div className="p-4 text-center text-red-500">
@@ -52,7 +50,9 @@ export function PokemonAbout() {
         <div className="bg-gray-50 p-4 rounded-lg">
           <span className="font-medium text-gray-600">Capture Rate</span>
           <p className="font-bold text-xl">
-            {`${aboutData?.capture_rate}%` || '—'}
+            {aboutData?.capture_rate !== undefined
+              ? `${aboutData.capture_rate}%`
+              : '—'}
           </p>
         </div>
 
