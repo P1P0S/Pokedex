@@ -8,7 +8,8 @@ export function PokemonGrid() {
   const [page, setPage] = useState(0)
   const { data, isFetching, error } = usePokemonList(page)
 
-  if (isFetching && (!data || data.length === 0)) return <PokemonGridSkeleton />
+  if (isFetching && (!data || data.length === 0))
+    return <PokemonGridSkeleton len={8} />
 
   if (error)
     return (

@@ -1,4 +1,4 @@
-import { Lightning, Target } from '@phosphor-icons/react'
+import { Lightning } from '@phosphor-icons/react'
 import { usePokemonDetail } from '../../hooks/usePokemonDetail'
 import { usePokemonDetailMove } from '../../hooks/usePokemonMoves'
 import { moveStatusColors, typeColors } from '../../utils/pokemonTypeColors'

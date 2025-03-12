@@ -4,6 +4,7 @@ import { usePokemonAbout } from '../../hooks/usePokemonAbout'
 import { usePokemonEvolutionChain } from '../../hooks/usePokemonEvolutionChain'
 import { extractEvolutionNames } from '../../utils/pokemonChainEvolutionNames'
 import { EvolutionCard } from '../PokemonEvolutionChainCard'
+import { PokemonGridSkeleton } from '../skeleton/PokemonGridSekelton'
 
 export function PokemonEvolutionChain() {
   const { identifier } = useParams<{ identifier: string }>()
@@ -26,7 +27,8 @@ export function PokemonEvolutionChain() {
     evolutionChainId ? Number(evolutionChainId) : undefined
   )
 
-  if (isSpeciesLoading || isEvolutionLoading) return <div>Loading...</div>
+  if (isSpeciesLoading || isEvolutionLoading)
+    return <PokemonGridSkeleton len={3} />
 
   if (speciesError || !speciesData)
     return <div>Error loading Pokémon species</div>
@@ -42,8 +44,8 @@ export function PokemonEvolutionChain() {
         {speciesData.name} Evolution Chain
       </h2>
 
-      <div className="flex flex-col">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
+      <div className="flex flex-col items-center w-full">
+        <div className="grid w-full max-w-3xl grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
           {evolutionNames.map(name => (
             <EvolutionCard key={name} name={name} />
           ))}

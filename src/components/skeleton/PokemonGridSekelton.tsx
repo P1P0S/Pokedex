@@ -1,5 +1,9 @@
-export function PokemonGridSkeleton() {
-  const skeletonCards = Array.from({ length: 8 }, (_, i) => i)
+type PokemonGridSkeletonProps = {
+  len: number
+}
+
+export function PokemonGridSkeleton({ len }: PokemonGridSkeletonProps) {
+  const skeletonCards = Array.from({ length: len }, (_, i) => i)
 
   return (
     <div className="grid mt-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
