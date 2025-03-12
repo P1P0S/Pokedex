@@ -100,7 +100,7 @@ export type PokemonSpecies = {
 
 export type PokemonChain = {
   id: number
-  species: { name: string }
+  species: { name: string; url: string }
   evolves_to: EvolutionNode[]
   chain: Array
 }

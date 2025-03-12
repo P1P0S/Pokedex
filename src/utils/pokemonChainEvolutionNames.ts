@@ -1,14 +1,20 @@
 import type { PokemonChain } from '../types/pokemon'
 
-export function extractEvolutionNames(chain: PokemonChain): string[] {
-  const names: string[] = []
+export function extractEvolutionsNames(chain: PokemonChain) {
+  const levels: PokemonChain[][] = []
+  let currentLevel: PokemonChain[] = [chain]
 
-  function traverse(node: PokemonChain) {
-    if (!node) return
-    names.push(node.species.name)
-    node.evolves_to.forEach(traverse)
+  while (currentLevel.length > 0) {
+    levels.push(currentLevel)
+    const nextLevel: PokemonChain[] = []
+    // biome-ignore lint/complexity/noForEach: <explanation>
+    currentLevel.forEach(evo => {
+      if (evo.evolves_to && evo.evolves_to.length > 0) {
+        nextLevel.push(...evo.evolves_to)
+      }
+    })
+    currentLevel = nextLevel
   }
 
-  traverse(chain)
-  return names
+  return levels
 }

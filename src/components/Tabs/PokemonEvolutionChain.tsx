@@ -1,41 +1,40 @@
-import { Lightning } from '@phosphor-icons/react'
+import {
+  ArrowDown,
+  ArrowDownLeft,
+  ArrowDownRight,
+  Lightning,
+} from '@phosphor-icons/react'
 import { useParams } from 'react-router-dom'
 import { usePokemonAbout } from '../../hooks/usePokemonAbout'
 import { usePokemonEvolutionChain } from '../../hooks/usePokemonEvolutionChain'
-import { extractEvolutionNames } from '../../utils/pokemonChainEvolutionNames'
+import { extractEvolutionsNames } from '../../utils/pokemonChainEvolutionNames'
 import { EvolutionCard } from '../PokemonEvolutionChainCard'
-import { PokemonGridSkeleton } from '../skeleton/PokemonGridSekelton'
 
 export function PokemonEvolutionChain() {
   const { identifier } = useParams<{ identifier: string }>()
-
-  const {
-    data: speciesData,
-    isLoading: isSpeciesLoading,
-    error: speciesError,
-  } = usePokemonAbout(identifier || '')
+  const { data: speciesData, error: speciesError } = usePokemonAbout(
+    identifier || ''
+  )
 
   const evolutionChainId = speciesData?.evolution_chain?.url
     ?.split('/')
     .slice(-2, -1)[0]
 
-  const {
-    data: evolutionData,
-    isLoading: isEvolutionLoading,
-    error: evolutionError,
-  } = usePokemonEvolutionChain(
-    evolutionChainId ? Number(evolutionChainId) : undefined
-  )
+  const { data: evolutionData, error: evolutionError } =
+    usePokemonEvolutionChain(evolutionChainId ? Number(evolutionChainId) : 1)
 
-  if (isSpeciesLoading || isEvolutionLoading)
-    return <PokemonGridSkeleton len={3} />
-
-  if (speciesError || !speciesData)
+  if (speciesError || !speciesData) {
     return <div>Error loading Pokémon species</div>
-  if (evolutionError || !evolutionData)
-    return <div>Error loading evolution chain</div>
+  }
 
-  const evolutionNames = extractEvolutionNames(evolutionData.chain)
+  if (evolutionError || !evolutionData) {
+    return <div>Error loading evolution chain</div>
+  }
+
+  const evolutionLevels = extractEvolutionsNames(evolutionData.chain)
+  const basePokemon = evolutionLevels[0]?.[0]
+  const remainingLevels = evolutionLevels.slice(1)
+  const firstEvolutionLevel = remainingLevels[0] || []
 
   return (
     <div className="p-5 bg-white rounded-lg shadow-lg">
@@ -44,12 +43,42 @@ export function PokemonEvolutionChain() {
         {speciesData.name} Evolution Chain
       </h2>
 
-      <div className="flex flex-col items-center w-full">
-        <div className="grid w-full max-w-3xl grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
-          {evolutionNames.map(name => (
-            <EvolutionCard key={name} name={name} />
-          ))}
-        </div>
+      <div className="flex flex-col items-center gap-8">
+        {basePokemon && (
+          <div className="flex flex-col justify-center">
+            <EvolutionCard name={basePokemon.species.name} />
+
+            {firstEvolutionLevel.length > 0 && (
+              <div>
+                {firstEvolutionLevel.length === 1 ? (
+                  <div className="flex justify-center mt-6">
+                    <ArrowDown size={32} weight="bold" />
+                  </div>
+                ) : (
+                  <div className="flex flex-row justify-between mt-6">
+                    <ArrowDownLeft
+                      className="self-start"
+                      size={32}
+                      weight="bold"
+                    />
+                    {firstEvolutionLevel.length > 2 && (
+                      <ArrowDown size={32} weight="bold" className="mx-2" />
+                    )}
+                    <ArrowDownRight size={32} weight="bold" />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {remainingLevels.length > 0 && (
+          <div className="flex flex-row flex-wrap justify-center gap-6">
+            {remainingLevels.flat().map(evo => (
+              <EvolutionCard key={evo.species.name} name={evo.species.name} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
