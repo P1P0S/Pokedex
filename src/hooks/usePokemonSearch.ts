@@ -7,9 +7,10 @@ export function usePokemonSearch(searchKey: string) {
     queryKey: ['pokemonSearch', searchKey],
     queryFn: async () => {
       if (!searchKey.trim()) throw new Error('No search key provided')
-      return await getPokemonDetail(searchKey.trim())
+      return await getPokemonDetail(searchKey.trim().replace(' ', '-'))
     },
     retry: 2,
     enabled: !!searchKey,
+    refetchOnWindowFocus: false,
   })
 }
