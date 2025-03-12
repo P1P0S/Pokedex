@@ -16,7 +16,7 @@ export function PokemonBasicInfo({
       <div className="flex flex-col gap-2 p-4">
         <div className="text-slate-50 font-bold text-md">{`#${String(data?.id).padStart(4, '0')}`}</div>
         <div className="text-slate-50 font-bold text-3xl capitalize">
-          {data.name}
+          {data.name.replace('-', ' ')}
         </div>
         <div className="flex flex-row gap-2">
           {data?.types.map(({ type }) => {

@@ -27,8 +27,11 @@ export function PokemonCard({ id, name, types, sprites }: PokemonDetail) {
         />
 
         <div className="absolute h-28 bottom-0 w-full bg-white/90 rounded-t-xl p-3 flex flex-col items-center" />
-        <h3 className="z-10 text-lg font-bold capitalize text-gray-800 text-nowrap">
-          {name}
+        <h3
+          className="z-10 text-lg font-bold capitalize text-gray-800 
+            overflow-hidden text-ellipsis whitespace-nowrap max-w-full px-2 text-center"
+        >
+          {name.replace('-', ' ')}
         </h3>
         <div className="z-10 flex gap-1 mt-2">
           {types.map(({ type }) => {
