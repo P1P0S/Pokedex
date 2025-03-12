@@ -2,12 +2,11 @@ import { Lightning } from '@phosphor-icons/react'
 import { usePokemonDetail } from '../../hooks/usePokemonDetail'
 import { usePokemonDetailMove } from '../../hooks/usePokemonMoves'
 import { moveStatusColors, typeColors } from '../../utils/pokemonTypeColors'
+import { PokemonMoveCardSkeleton } from '../skeleton/PokemonMoveCardSkeleton'
 
 export function PokemonMoves() {
-  const { data, isLoading, error } = usePokemonDetail()
+  const { data, error } = usePokemonDetail()
 
-  if (isLoading)
-    return <div className="p-4 text-center text-gray-500">Loading moves...</div>
   if (error || !data) {
     return (
       <div className="p-4 text-center text-red-500">
@@ -41,7 +40,7 @@ export function PokemonMoves() {
           if (moveLoading) {
             return (
               <div key={move.name} className="p-3 text-center text-gray-500">
-                Loading details...
+                <PokemonMoveCardSkeleton />
               </div>
             )
           }
