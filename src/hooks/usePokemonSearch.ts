@@ -1,16 +1,33 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getPokemonDetail } from '../services/pokeAPI'
 import type { PokemonDetail } from '../types/pokemon'
 
-export function usePokemonSearch(searchKey: string) {
+export function usePokemonSearch(identifier: string) {
+  const queryClient = useQueryClient()
+
   return useQuery<PokemonDetail, Error>({
-    queryKey: ['pokemonSearch', searchKey],
+    queryKey: ['pokemonDetail', identifier],
     queryFn: async () => {
-      if (!searchKey.trim()) throw new Error('No search key provided')
-      return await getPokemonDetail(searchKey.trim().replace(' ', '-'))
+      if (!identifier) {
+        throw new Error('Identifier is missing')
+      }
+
+      const cachedData = queryClient.getQueryData<PokemonDetail>([
+        'pokemonDetail',
+        identifier,
+      ])
+      if (cachedData) {
+        return cachedData
+      }
+
+      const data = await getPokemonDetail(identifier)
+
+      queryClient.setQueryData(['pokemonDetail', identifier], data)
+
+      return data
     },
-    retry: 2,
-    enabled: !!searchKey,
-    refetchOnWindowFocus: false,
+    enabled: Boolean(identifier),
+    staleTime: 1000 * 60 * 5,
+    retry: 1,
   })
 }
