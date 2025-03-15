@@ -10,5 +10,10 @@ export async function listPokemonFrontPage(page: number) {
     list.results.map(item => getPokemonDetail(item.name))
   )
 
-  return pokemonData
+  return {
+    count: list.count,
+    next: list.next,
+    previous: list.previous,
+    pokemonData,
+  }
 }

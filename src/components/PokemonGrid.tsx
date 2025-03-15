@@ -8,7 +8,7 @@ export function PokemonGrid() {
   const [page, setPage] = useState(0)
   const { data, isFetching, error } = usePokemonList(page)
 
-  if (isFetching && (!data || data.length === 0))
+  if (isFetching && (!data || data?.pokemonData.length === 0))
     return <PokemonGridSkeleton len={8} />
 
   if (error)
@@ -21,7 +21,7 @@ export function PokemonGrid() {
   return (
     <>
       <div className="grid mt-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-        {data?.map(pokemon => (
+        {data?.pokemonData.map(pokemon => (
           <PokemonCard key={pokemon.id} {...pokemon} />
         ))}
       </div>
