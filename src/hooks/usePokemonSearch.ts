@@ -29,5 +29,6 @@ export function usePokemonSearch(identifier: string) {
     enabled: Boolean(identifier),
     staleTime: 1000 * 60 * 5,
     retry: 1,
+    refetchOnWindowFocus: false,
   })
 }
