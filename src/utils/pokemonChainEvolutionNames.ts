@@ -1,19 +1,25 @@
-import type { PokemonChain } from '../types/pokemon'
+import type { EvolutionDetail, PokemonChain } from '../types/pokemon'
 
-export function extractEvolutionsNames(chain: PokemonChain) {
-  const levels: PokemonChain[][] = []
+export interface EvolutionLevelItem {
+  speciesName: string
+  evolutionDetails: EvolutionDetail[]
+}
+
+export function extractEvolutionsNames(
+  chain: PokemonChain
+): EvolutionLevelItem[][] {
+  const levels: EvolutionLevelItem[][] = []
   let currentLevel: PokemonChain[] = [chain]
 
   while (currentLevel.length > 0) {
-    levels.push(currentLevel)
-    const nextLevel: PokemonChain[] = []
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    currentLevel.forEach(evo => {
-      if (evo.evolves_to && evo.evolves_to.length > 0) {
-        nextLevel.push(...evo.evolves_to)
-      }
-    })
-    currentLevel = nextLevel
+    const currentLevelData: EvolutionLevelItem[] = currentLevel.map(evo => ({
+      speciesName: evo.species.name,
+      evolutionDetails: evo.evolution_details ?? [],
+    }))
+
+    levels.push(currentLevelData)
+
+    currentLevel = currentLevel.flatMap(evo => evo.evolves_to ?? [])
   }
 
   return levels

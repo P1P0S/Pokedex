@@ -5,6 +5,7 @@ import {
   Lightning,
 } from '@phosphor-icons/react'
 import { useParams } from 'react-router-dom'
+import { renderEvolutionDetails } from '../../functions/renderEvolutionDetail'
 import { usePokemonAbout } from '../../hooks/usePokemonAbout'
 import { usePokemonEvolutionChain } from '../../hooks/usePokemonEvolutionChain'
 import { extractEvolutionsNames } from '../../utils/pokemonChainEvolutionNames'
@@ -55,8 +56,13 @@ export function PokemonEvolutionChain() {
 
       <div className="flex flex-col items-center gap-8">
         {basePokemon && (
-          <div className="flex flex-col justify-center">
-            <EvolutionCard name={basePokemon.species.name} />
+          <div className="flex flex-col justify-center items-center">
+            <EvolutionCard name={basePokemon.speciesName} />
+
+            {basePokemon.evolutionDetails.length > 0 &&
+              renderEvolutionDetails({
+                details: basePokemon.evolutionDetails,
+              })}
 
             {firstEvolutionLevel.length > 0 && (
               <div>
@@ -85,7 +91,19 @@ export function PokemonEvolutionChain() {
         {remainingLevels.length > 0 && (
           <div className="flex flex-row flex-wrap justify-center gap-6">
             {remainingLevels.flat().map(evo => (
-              <EvolutionCard key={evo.species.name} name={evo.species.name} />
+              <ul
+                className="list-none h-fit rounded-lg overflow-hidden bg-gray-50 border border-gray-200 text-gray-700 text-sm"
+                key={evo.speciesName}
+              >
+                <div className="flex flex-col items-center">
+                  <div className="pt-4">
+                    <EvolutionCard name={evo.speciesName} />
+                  </div>
+
+                  {evo.evolutionDetails.length > 0 &&
+                    renderEvolutionDetails({ details: evo.evolutionDetails })}
+                </div>
+              </ul>
             ))}
           </div>
         )}

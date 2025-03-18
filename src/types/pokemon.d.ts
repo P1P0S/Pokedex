@@ -99,10 +99,28 @@ export type PokemonSpecies = {
 }
 
 export type PokemonChain = {
+  evolution_details: never[]
   id: number
   species: { name: string; url: string }
   evolves_to: EvolutionNode[]
   chain: Array
+}
+
+export type EvolutionDetail = {
+  trigger?: { name: string }
+  min_level?: number | null
+  item?: { name: string }
+  held_item?: { name: string }
+  min_happiness?: number | null
+  min_beauty?: number | null
+  min_affection?: number | null
+  location?: { name: string }
+  known_move?: { name: string }
+  known_move_type?: { name: string }
+  time_of_day?: string
+  gender?: number | null
+  trade_species?: { name: string }
+  turn_upside_down?: boolean
 }
 
 export type SpriteOther =
