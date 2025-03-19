@@ -11,23 +11,23 @@ interface SearchPokemonProps {
 export function SearchPokemon({ onResult }: SearchPokemonProps) {
   const [searchInput, setSearchInput] = useState('')
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const [notFound, setNotFound] = useState(false)
+  const [error, setError] = useState(false)
   const suggestionsRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const {
-    data: allPokemon,
-    isLoading,
-    error,
-  } = usePokemonSearch({
-    enabled: searchInput.trim().length > 1,
+  const { data: allPokemon, isLoading } = usePokemonSearch({
+    enabled: searchInput.trim().length > 0,
   })
 
+  const isNumber = /^\d+$/.test(searchInput.trim())
+
   const filteredPokemon = useMemo(() => {
-    if (!allPokemon || !searchInput.trim()) return []
+    if (!allPokemon || !searchInput.trim() || isNumber) return []
     const term = searchInput.trim().toLowerCase().replace(/\s+/g, '-')
     return allPokemon.filter(name => name.toLowerCase().includes(term))
-  }, [allPokemon, searchInput])
+  }, [allPokemon, searchInput, isNumber])
 
   const exactMatch = useMemo(() => {
     if (!filteredPokemon.length) return null
@@ -38,12 +38,21 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
   useEffect(() => {
     if (!searchInput.trim()) {
       onResult(null)
+      setNotFound(false)
     }
   }, [searchInput, onResult])
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && exactMatch) {
-      handleSelectPokemon(exactMatch)
+  const handleKeyDown = async (e: React.KeyboardEvent) => {
+    const trimmedInput = searchInput.trim()
+
+    if (e.key === 'Enter' && trimmedInput) {
+      if (exactMatch) {
+        handleSelectPokemon(exactMatch)
+      } else {
+        handleSelectPokemon(trimmedInput)
+      }
+
+      setShowSuggestions(false)
       inputRef.current?.blur()
     } else if (e.key === 'Escape') {
       setShowSuggestions(false)
@@ -96,15 +105,35 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
     }
   }
 
-  const handleSelectPokemon = async (name: string) => {
-    setSearchInput(name.replace(/-/g, ' '))
-    const pokemonDetails = await getPokemonDetail(name)
-    onResult(pokemonDetails)
+  const handleSelectPokemon = async (nameOrId: string) => {
+    const trimmedNameOrId = nameOrId.trim()
+    if (!trimmedNameOrId) return
+
+    setSearchInput(trimmedNameOrId.replace(/-/g, ' '))
+
+    let pokemonDetails = null
+    try {
+      pokemonDetails = await getPokemonDetail(trimmedNameOrId)
+      setError(false)
+    } catch {
+      pokemonDetails = null
+      setError(true)
+    }
+
+    if (!pokemonDetails) {
+      setNotFound(true)
+      onResult(null)
+    } else {
+      setNotFound(false)
+      onResult(pokemonDetails)
+    }
+
     setShowSuggestions(false)
   }
 
   const handleClearInput = () => {
     setSearchInput('')
+    setNotFound(false)
     onResult(null)
     inputRef.current?.focus()
   }
@@ -138,10 +167,10 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
             value={searchInput}
             onChange={e => {
               setSearchInput(e.target.value)
-              setShowSuggestions(!!e.target.value.trim())
+              setShowSuggestions(!!e.target.value.trim() && !isNumber)
             }}
             onKeyDown={handleKeyDown}
-            onFocus={() => searchInput.trim() && setShowSuggestions(true)}
+            onFocus={() => searchInput.trim() && setShowSuggestions(!isNumber)}
             aria-label="Search Pokémon"
             aria-controls="pokemon-suggestions"
             aria-expanded={showSuggestions}
@@ -160,7 +189,14 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
                 <XCircle size={18} weight="fill" />
               </button>
             )}
-            <MagnifyingGlass className="text-gray-400" size={18} />
+            <button
+              type="button"
+              onClick={() => handleSelectPokemon(searchInput.trim())}
+              className="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-full"
+              aria-label="Search by ID"
+            >
+              <MagnifyingGlass size={18} weight="bold" />
+            </button>
           </div>
         </div>
 
@@ -196,16 +232,28 @@ export function SearchPokemon({ onResult }: SearchPokemonProps) {
         )}
       </div>
 
-      {error && (
-        <div
-          className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg shadow-md flex 
-            items-center gap-1 w-full max-w-md"
-          role="alert"
-        >
-          <XCircle size={24} weight="fill" />
-          <p className="font-bold">Oops! Couldn't load Pokémon data!</p>
+      {(error || notFound) && !isLoading ? (
+        <div className="flex flex-col items-center mt-6">
+          <div className="w-20 h-20 relative animate-bounce">
+            <div
+              className="w-full h-full rounded-full bg-gradient-to-b from-red-500 to-white 
+        relative overflow-hidden border-4 border-white shadow-lg"
+            >
+              <div className="absolute top-1/2 w-full h-2 bg-gray-800" />
+              <div
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+          w-6 h-6 rounded-full bg-white border-4 border-gray-800"
+              />
+            </div>
+          </div>
+          <p className="text-red-600 font-bold mt-4 text-lg text-center">
+            Oops! This Pokémon is not in the Pokédex!
+          </p>
+          <p className="text-gray-500 italic text-sm text-center">
+            Maybe it’s hiding in the tall grass... 🌿
+          </p>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }
