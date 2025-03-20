@@ -1,9 +1,4 @@
-import {
-  ArrowDown,
-  ArrowDownLeft,
-  ArrowDownRight,
-  Lightning,
-} from '@phosphor-icons/react'
+import { ArrowDown, Lightning } from '@phosphor-icons/react'
 import { useParams } from 'react-router-dom'
 import { renderEvolutionDetails } from '../../functions/renderEvolutionDetail'
 import { usePokemonAbout } from '../../hooks/usePokemonAbout'
@@ -45,7 +40,6 @@ export function PokemonEvolutionChain() {
   const evolutionLevels = extractEvolutionsNames(evolutionData.chain)
   const basePokemon = evolutionLevels[0]?.[0]
   const remainingLevels = evolutionLevels.slice(1)
-  const firstEvolutionLevel = remainingLevels[0] || []
 
   return (
     <div className="p-5 bg-white rounded-lg shadow-lg">
@@ -63,28 +57,9 @@ export function PokemonEvolutionChain() {
               renderEvolutionDetails({
                 details: basePokemon.evolutionDetails,
               })}
-
-            {firstEvolutionLevel.length > 0 && (
-              <div>
-                {firstEvolutionLevel.length === 1 ? (
-                  <div className="flex justify-center mt-6">
-                    <ArrowDown size={32} weight="bold" />
-                  </div>
-                ) : (
-                  <div className="flex flex-row justify-between mt-6">
-                    <ArrowDownLeft
-                      className="self-start"
-                      size={32}
-                      weight="bold"
-                    />
-                    {firstEvolutionLevel.length > 2 && (
-                      <ArrowDown size={32} weight="bold" className="mx-2" />
-                    )}
-                    <ArrowDownRight size={32} weight="bold" />
-                  </div>
-                )}
-              </div>
-            )}
+            <div className="flex justify-center mt-6">
+              <ArrowDown size={32} weight="bold" />
+            </div>
           </div>
         )}
 
